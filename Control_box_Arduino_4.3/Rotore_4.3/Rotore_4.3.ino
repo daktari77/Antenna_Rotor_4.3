@@ -2,32 +2,8 @@
    CONTROL BOX arduino based
    Nextion Display 4.3"
 */
-#include <doxygen.h>
-#include <NexButton.h>
-#include <NexCheckbox.h>
-#include <NexConfig.h>
-#include <NexCrop.h>
-#include <NexDualStateButton.h>
-#include <NexGauge.h>
-#include <NexGpio.h>
-#include <NexHardware.h>
-#include <NexHotspot.h>
-#include <NexNumber.h>
-#include <NexObject.h>
-#include <NexPage.h>
-#include <NexPicture.h>
-#include <NexProgressBar.h>
-#include <NexRadio.h>
-#include <NexRtc.h>
-#include <NexScrolltext.h>
-#include <NexSlider.h>
-#include <NexText.h>
-#include <NexTimer.h>
+
 #include <Nextion.h>
-#include <NexTouch.h>
-#include <NexUpload.h>
-#include <NexVariable.h>
-#include <NexWaveform.h>
 
 #include "declare.h" // variabili e costanti di ambiente
 #include "ext_func.h" //funzioni da richiamare esternamente
@@ -61,7 +37,8 @@ NexTouch *nex_listen_list[] =
 void setup(void)
 {
   /* Set the baudrate which is for debug and communicate with Nextion screen. */
-
+  nexSerial.begin(115200);
+  dbSerialBegin(115200);
   for (int X = 8; X <= 11; X++) {
     pinMode( X, OUTPUT );
     digitalWrite( X, LOW );
@@ -80,8 +57,6 @@ void setup(void)
   TOU_DOWN.attachPop(TOU_DOWNPopCallback, &TOU_DOWN);
   TOU_DOWN.attachPush(TOU_DOWNPushCallback, &TOU_DOWN);
 
-  //BTN_ENTER.attachPop(BTN_ENTERPopCallback, &BTN_ENTER);
-
   TOU_AZIMUT_ENT.attachPop(TOU_AZIMUT_ENTPopCAllback, &TOU_AZIMUT_ENT);
 
 
@@ -97,17 +72,56 @@ void setup(void)
   BTN_MEM10.attachPop(BTN_MEM10PopCallback, &BTN_MEM10);
   BTN_MEM11.attachPop(BTN_MEM11PopCallback, &BTN_MEM11);
   BTN_MEM12.attachPop(BTN_MEM12PopCallback, &BTN_MEM12);
-
-  azimut_attuale(); // prima lettura della posizione del rotore
-
+  //azimut_current();
   dbSerialPrintln("setup done");
+  delay(2500);
+  int x = 5;
+  for (int a = 0; a > -1; a = a + x ) {   //DEMO gauge
+    int b = (a * 2);
+    GAU_ELEVAZ.setValue( a );
+    itoa(a, BUFFER, 10);
+    TXT_ELEVAZ.setText( BUFFER );
+    GAU_AZIMUT.setValue( b );
+    itoa(b, BUFFER_1, 10);
+    TXT_AZIMUT.setText( BUFFER_1 );
+    if (a == 180) x = -5;
+    //delay(1000);
+  }
 }
 
-void loop()
-{
-  int X;
-  for (X = 0; X < 101; X++) {
-
-  }
+void loop() {
   nexLoop(nex_listen_list);
+
+  switch (AZIMUT_ROTAZIONE) {
+    case 0:
+      azimut_stop();
+      break;
+    case 1:
+      rotazione_CCW();
+      while (VAR_AZIMUT_CURRENT < t_min && VAR_AZIMUT_CURRENT > t_max );  {
+        azimut_current();
+        delay(10);
+      }
+      azimut_stop();
+      AZIMUT_ROTAZIONE == 0;
+      break;
+    case 2:
+      rotazione_CW();
+      while (VAR_AZIMUT_CURRENT < t_min && VAR_AZIMUT_CURRENT > t_max );  {
+        azimut_current();
+        delay(10);
+      }
+      azimut_stop();
+      AZIMUT_ROTAZIONE == 0;
+      break;
+  }
+
+  int y = map(analogRead(SENS_POT_AZIMUT), 0, 1023, 0, 450);
+  unsigned long currentMillis = millis();
+  if (currentMillis - previousMillis > 1000) {
+    previousMillis = currentMillis;
+    if (abs( y - VAR_AZIMUT_CURRENT) > 3) {
+      azimut_current();
+    }
+  }
 }
