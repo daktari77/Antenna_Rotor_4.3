@@ -1,3 +1,21 @@
+void rotazione(){
+  if (VAR_AZIMUT_CURRENT < 180 && (VAR_AZIMUT_TARGET < VAR_AZIMUT_CURRENT) || ((VAR_AZIMUT_CURRENT - 180) < VAR_AZIMUT_TARGET) && (VAR_AZIMUT_TARGET < VAR_AZIMUT_CURRENT) || (90 < VAR_AZIMUT_TARGET) && (VAR_AZIMUT_TARGET < VAR_AZIMUT_CURRENT)) {
+    AZIMUT_ROTAZIONE = 1;
+  }
+  else {
+    AZIMUT_ROTAZIONE = 2;
+  }
+  if (360 < VAR_AZIMUT_CURRENT && VAR_AZIMUT_CURRENT < 450) {
+    if ((VAR_AZIMUT_CURRENT - 360) < VAR_AZIMUT_TARGET && ( VAR_AZIMUT_TARGET < 90)) {
+      AZIMUT_ROTAZIONE = 2;
+    }
+    else {
+      AZIMUT_ROTAZIONE = 1;
+    }
+  }
+}
+
+
 void azimut_current() {
   /*
      Set puntatore OK

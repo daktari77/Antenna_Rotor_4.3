@@ -26,11 +26,11 @@ NexTouch *nex_listen_list[] =
   &BTN_MEM5,
   &BTN_MEM6,
   &BTN_MEM7,
-  &BTN_MEM8,
-  &BTN_MEM9,
-  &BTN_MEM10,
-  &BTN_MEM11,
-  &BTN_MEM12,
+  &BTN_MEM0,
+  &BTN_MEM_WEST,
+  &BTN_MEM_EST,
+  &BTN_MEM_SUD,
+  &BTN_MEM_NORD,
   NULL
 };
 
@@ -67,11 +67,11 @@ void setup(void)
   BTN_MEM5.attachPop(BTN_MEM5PopCallback, &BTN_MEM5);
   BTN_MEM6.attachPop(BTN_MEM6PopCallback, &BTN_MEM6);
   BTN_MEM7.attachPop(BTN_MEM7PopCallback, &BTN_MEM7);
-  BTN_MEM8.attachPop(BTN_MEM8PopCallback, &BTN_MEM8);
-  BTN_MEM9.attachPop(BTN_MEM9PopCallback, &BTN_MEM9);
-  BTN_MEM10.attachPop(BTN_MEM10PopCallback, &BTN_MEM10);
-  BTN_MEM11.attachPop(BTN_MEM11PopCallback, &BTN_MEM11);
-  BTN_MEM12.attachPop(BTN_MEM12PopCallback, &BTN_MEM12);
+  BTN_MEM0.attachPop(BTN_MEM0PopCallback, &BTN_MEM0);
+  BTN_MEM_WEST.attachPop(BTN_MEM_WESTPopCallback, &BTN_MEM_WEST);
+  BTN_MEM_EST.attachPop(BTN_MEM_ESTPopCallback, &BTN_MEM_EST);
+  BTN_MEM_SUD.attachPop(BTN_MEM_SUDPopCallback, &BTN_MEM_SUD);
+  BTN_MEM_NORD.attachPop(BTN_MEM_NORDPopCallback, &BTN_MEM_NORD);
   //azimut_current();
   dbSerialPrintln("setup done");
   delay(2500);

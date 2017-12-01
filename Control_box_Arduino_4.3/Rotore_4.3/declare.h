@@ -68,11 +68,11 @@ NexButton BTN_MEM4 = NexButton (PAG_AZIMUT, 23, "BTN_MEM4"); // Richiama memoria
 NexButton BTN_MEM5 = NexButton (PAG_AZIMUT, 24, "BTN_MEM5"); // Richiama memoria per AZIMUT
 NexButton BTN_MEM6 = NexButton (PAG_AZIMUT, 25, "BTN_MEM6"); // Richiama memoria per AZIMUT
 NexButton BTN_MEM7 = NexButton (PAG_AZIMUT, 26, "BTN_MEM7"); // Richiama memoria per AZIMUT
-NexButton BTN_MEM8 = NexButton (PAG_AZIMUT, 27, "BTN_MEM8"); // Richiama memoria per AZIMUT
-NexButton BTN_MEM9 = NexButton (PAG_AZIMUT, 28, "BTN_MEM9"); // Richiama memoria per AZIMUT
-NexButton BTN_MEM10 = NexButton (PAG_AZIMUT, 29, "BTN_MEM10"); // Richiama memoria per AZIMUT
-NexButton BTN_MEM11 = NexButton (PAG_AZIMUT, 30, "BTN_MEM11"); // Richiama memoria per AZIMUT
-NexButton BTN_MEM12 = NexButton (PAG_AZIMUT, 31, "BTN_MEM12"); // Richiama memoria per AZIMUT
+NexButton BTN_MEM0 = NexButton (PAG_AZIMUT, 27, "BTN_MEM0"); // Richiama memoria per AZIMUT
+NexButton BTN_MEM_WEST = NexButton (PAG_AZIMUT, 28, "BTN_MEM_WEST"); // Richiama memoria per AZIMUT
+NexButton BTN_MEM_EST = NexButton (PAG_AZIMUT, 29, "BTN_MEM_EST"); // Richiama memoria per AZIMUT
+NexButton BTN_MEM_SUD = NexButton (PAG_AZIMUT, 30, "BTN_MEM_SUD"); // Richiama memoria per AZIMUT
+NexButton BTN_MEM_NORD = NexButton (PAG_AZIMUT, 31, "BTN_MEM_NORD"); // Richiama memoria per AZIMUT
 /*----------------------*/
 
 /*
@@ -102,6 +102,19 @@ NexGauge GAU_ELEVAZ = NexGauge(PAG_MAIN, 6, "GAU_ELEVAZ");  //dichiarazione ogge
    VARIABLES
 */
 NexVariable va2 = NexVariable(PAG_AZIMUT, 27, "va2");
+NexVariable VA_MEM0 = NexVariable(PAG_AZIMUT, 16, "VA_MEM0");
+NexVariable VA_MEM1 = NexVariable(PAG_AZIMUT, 9, "VA_MEM1");
+NexVariable VA_MEM2 = NexVariable(PAG_AZIMUT, 10, "VA_MEM2");
+NexVariable VA_MEM3 = NexVariable(PAG_AZIMUT, 11, "VA_MEM3");
+NexVariable VA_MEM4 = NexVariable(PAG_AZIMUT, 12, "VA_MEM4");
+NexVariable VA_MEM5 = NexVariable(PAG_AZIMUT, 13, "VA_MEM5");
+NexVariable VA_MEM6 = NexVariable(PAG_AZIMUT, 14, "VA_MEM6");
+NexVariable VA_MEM7 = NexVariable(PAG_AZIMUT, 15, "VA_MEM7");
+NexVariable VA_MEM_NORD = NexVariable(PAG_AZIMUT, 9, "VA_MEM_NORD");
+NexVariable VA_MEM_SUD = NexVariable(PAG_AZIMUT, 9, "VA_MEM_SUD");
+NexVariable VA_MEM_WEST = NexVariable(PAG_AZIMUT, 9, "VA_MEM_WEST");
+NexVariable VA_MEM_EST = NexVariable(PAG_AZIMUT, 9, "VA_MEM_EST");
+
 /*
    RADIO
 */
