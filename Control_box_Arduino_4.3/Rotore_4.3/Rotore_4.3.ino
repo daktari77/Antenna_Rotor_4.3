@@ -120,8 +120,26 @@ void loop() {
   unsigned long currentMillis = millis();
   if (currentMillis - previousMillis > 1000) {
     previousMillis = currentMillis;
-    if (abs( y - VAR_AZIMUT_CURRENT) > 3) {
+    if (abs( y - VAR_AZIMUT_CURRENT) > 2) {
       azimut_current();
     }
+  }
+
+  if (CHECK == 1) {
+    int VAR_AZIMUT_PREV = analogRead(SENS_POT_AZIMUT);
+    digitalWrite( RELE_CCW, HIGH);
+    //VAR_AZIMUT_PREV = analogRead(SENS_POT_AZIMUT);
+    while (VAR_AZIMUT_CURRENT < VAR_AZIMUT_PREV) {
+      VAR_AZIMUT_PREV = VAR_AZIMUT_CURRENT;
+    }
+    digitalWrite( RELE_CCW, LOW);
+    VAR_AZIMUT_MIN = analogRead(SENS_POT_AZIMUT);
+    delay(1000);
+    digitalWrite( RELE_CW, HIGH);
+    while (VAR_AZIMUT_CURRENT > VAR_AZIMUT_PREV) {
+      VAR_AZIMUT_PREV = VAR_AZIMUT_CURRENT;
+    }
+    digitalWrite( RELE_CW, LOW);
+    VAR_AZIMUT_MAX = analogRead(SENS_POT_AZIMUT);
   }
 }

@@ -1,3 +1,14 @@
+/*
+   PINOUT ROTORE YAESU G650
+
+   1  ROSA  POT +
+   2  GRIGIO  POT COMMON
+   3  GIALLO  POT -
+   4  VERDE AVV CW
+   5  MARRONE AVV CCW
+   6  BIANCO COMMON
+*/
+
 unsigned long previousMillis = 0;
 
 /*
@@ -22,11 +33,14 @@ const uint8_t PAG_CONFIG = 5;
 /*-----------------------------*/
 
 /*--------variabili----------*/
-uint32_t VAR_AZIMUT_TARGET;  // Variabile per la memorizzazione dell'azimuth finale //DEVE RIMANERE A 32
-uint32_t VAR_ELEVAZ_TARGET; // Variabile per la memorizzazione dell'elevazione finale //DEVE RIMANERE A 32
-uint8_t VAR_TEMP;//
-uint16_t VAR_AZIMUT_CURRENT;
-uint16_t VAR_ELEVAZ_CURRENT;
+uint32_t  VAR_AZIMUT_TARGET;  // Variabile per la memorizzazione dell'azimuth finale //DEVE RIMANERE A 32
+uint32_t  VAR_ELEVAZ_TARGET; // Variabile per la memorizzazione dell'elevazione finale //DEVE RIMANERE A 32
+uint8_t   VAR_AZIMUT_MIN;
+uint8_t   VAR_AZIMUT_MAX;
+uint8_t   CHECK = 0;
+uint8_t   VAR_TEMP;//
+uint16_t  VAR_AZIMUT_CURRENT;
+uint16_t  VAR_ELEVAZ_CURRENT;
 int t_skew = 5;
 int t_max = (VAR_AZIMUT_TARGET + 5);
 int t_min = (VAR_AZIMUT_TARGET - 5);
@@ -95,15 +109,15 @@ NexText TXT_OVERLAP = NexText(PAG_MAIN, 12, "TXT_OVERLAP");
 /*
    GAUGE
 */
-NexGauge GAU_AZIMUT = NexGauge(PAG_MAIN, 5, "GAU_AZIMUT");  //dichiarazione oggetto gauge
-NexGauge GAU_ELEVAZ = NexGauge(PAG_MAIN, 6, "GAU_ELEVAZ");  //dichiarazione oggetto gauge
+NexGauge GAU_AZIMUT = NexGauge(PAG_MAIN, 5, "GAU_AZIMUT");  //dichiarazione oggetto gauge azimut
+NexGauge GAU_ELEVAZ = NexGauge(PAG_MAIN, 6, "GAU_ELEVAZ");  //dichiarazione oggetto gauge elevazione
 
 /*
    VARIABLES
 */
-NexVariable va2 = NexVariable(PAG_AZIMUT, 27, "va2");
+NexVariable va2 = NexVariable(PAG_AZIMUT, 27, "va2"); //variabile di appoggio
 NexVariable VA_MEM0 = NexVariable(PAG_AZIMUT, 16, "VA_MEM0");
-NexVariable VA_MEM1 = NexVariable(PAG_AZIMUT, 9, "VA_MEM1");
+NexVariable VA_MEM1 = NexVariable(PAG_AZIMUT,  9, "VA_MEM1");
 NexVariable VA_MEM2 = NexVariable(PAG_AZIMUT, 10, "VA_MEM2");
 NexVariable VA_MEM3 = NexVariable(PAG_AZIMUT, 11, "VA_MEM3");
 NexVariable VA_MEM4 = NexVariable(PAG_AZIMUT, 12, "VA_MEM4");
@@ -118,4 +132,4 @@ NexVariable VA_MEM_EST = NexVariable(PAG_AZIMUT, 9, "VA_MEM_EST");
 /*
    RADIO
 */
-NexRadio r0 = NexRadio(PAG_MAIN, 12, "r0");
+NexRadio r0 = NexRadio(PAG_MAIN, 12, "r0"); // radiobutton per indicazione overlap

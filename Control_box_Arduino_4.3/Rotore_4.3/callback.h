@@ -101,8 +101,14 @@ void TOU_UPPushCallback(void *ptr) {   //Funzione callback per l'evento PUSH del
   dbSerialPrint("ptr=");
   dbSerialPrintln((uint32_t)ptr);
   delay(DELAY_S);
-  //digitalWrite( RELE_DOWN, LOW );
   digitalWrite( RELE_UP, HIGH );
+}
+void TOU_UPPopCallback(void *ptr) {   //Funzione callback per l'evento POP del button TOU_UP
+  dbSerialPrintln("TOU_UPPopCallback");
+  dbSerialPrint("ptr=");
+  dbSerialPrintln((uint32_t)ptr);
+  delay(DELAY_S);
+  digitalWrite( RELE_UP, LOW );
 }
 
 void TOU_DOWNPushCallback(void *ptr) {  //Funzione callback per l'evento PUSH del button TOU_DOWN
@@ -132,14 +138,7 @@ void TOU_CWPushCallback(void *ptr) {  //Funzione callback per l'evento PUSH del 
   digitalWrite( RELE_CW, HIGH );
 }
 
-void TOU_UPPopCallback(void *ptr) {   //Funzione callback per l'evento POP del button TOU_UP
-  dbSerialPrintln("TOU_UPPopCallback");
-  dbSerialPrint("ptr=");
-  dbSerialPrintln((uint32_t)ptr);
-  delay(DELAY_S);
-  digitalWrite( RELE_UP, LOW );
-  //digitalWrite( RELE_DOWN, LOW );
-}
+
 
 void TOU_CWPopCallback(void *ptr) { //Funzione callback per l'evento POP del button TOU_CW
   dbSerialPrintln("TOU_CWPopCallback");
