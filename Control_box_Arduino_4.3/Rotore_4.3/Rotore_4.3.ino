@@ -27,10 +27,10 @@ NexTouch *nex_listen_list[] =
   &BTN_MEM6,
   &BTN_MEM7,
   &BTN_MEM0,
-  &BTN_MEM_WEST,
-  &BTN_MEM_EST,
-  &BTN_MEM_SUD,
-  &BTN_MEM_NORD,
+  &TOU_MEM_WEST,
+  &TOU_MEM_EST,
+  &TOU_MEM_SUD,
+  &TOU_MEM_NORD,
   NULL
 };
 
@@ -68,15 +68,16 @@ void setup(void)
   BTN_MEM6.attachPop(BTN_MEM6PopCallback, &BTN_MEM6);
   BTN_MEM7.attachPop(BTN_MEM7PopCallback, &BTN_MEM7);
   BTN_MEM0.attachPop(BTN_MEM0PopCallback, &BTN_MEM0);
-  BTN_MEM_WEST.attachPop(BTN_MEM_WESTPopCallback, &BTN_MEM_WEST);
-  BTN_MEM_EST.attachPop(BTN_MEM_ESTPopCallback, &BTN_MEM_EST);
-  BTN_MEM_SUD.attachPop(BTN_MEM_SUDPopCallback, &BTN_MEM_SUD);
-  BTN_MEM_NORD.attachPop(BTN_MEM_NORDPopCallback, &BTN_MEM_NORD);
+  TOU_MEM_WEST.attachPop(TOU_MEM_WESTPopCallback, &TOU_MEM_WEST);
+  TOU_MEM_EST.attachPop(TOU_MEM_ESTPopCallback, &TOU_MEM_EST);
+  TOU_MEM_SUD.attachPop(TOU_MEM_SUDPopCallback, &TOU_MEM_SUD);
+  TOU_MEM_NORD.attachPop(TOU_MEM_NORDPopCallback, &TOU_MEM_NORD);
   //azimut_current();
   dbSerialPrintln("setup done");
   delay(2500);
-  int x = 5;
-  for (int a = 0; a > -1; a = a + x ) {   //DEMO gauge
+  int x = 10;
+  /*
+  for (int a = 0; a >= -1; a = a + x ) {   //DEMO gauge
     int b = (a * 2);
     GAU_ELEVAZ.setValue( a );
     itoa(a, BUFFER, 10);
@@ -84,62 +85,65 @@ void setup(void)
     GAU_AZIMUT.setValue( b );
     itoa(b, BUFFER_1, 10);
     TXT_AZIMUT.setText( BUFFER_1 );
-    if (a == 180) x = -5;
+    if (a == 180) x = -10;
     //delay(1000);
   }
+  */
 }
 
 void loop() {
   nexLoop(nex_listen_list);
 
   switch (AZIMUT_ROTAZIONE) {
-    case 0:
+    case STOP:
       azimut_stop();
       break;
-    case 1:
+    case CCW:
       rotazione_CCW();
-      while (VAR_AZIMUT_CURRENT < t_min && VAR_AZIMUT_CURRENT > t_max );  {
+      while (abs(VAR_AZIMUT_CURRENT - VAR_AZIMUT_TARGET) < 5 && abs(VAR_AZIMUT_CURRENT - VAR_AZIMUT_TARGET) > 5) {
         azimut_current();
         delay(10);
       }
       azimut_stop();
-      AZIMUT_ROTAZIONE == 0;
+      AZIMUT_ROTAZIONE = STOP;
       break;
-    case 2:
+    case CW:
       rotazione_CW();
-      while (VAR_AZIMUT_CURRENT < t_min && VAR_AZIMUT_CURRENT > t_max );  {
+      while (abs(VAR_AZIMUT_CURRENT - VAR_AZIMUT_TARGET) < 5 && abs(VAR_AZIMUT_CURRENT - VAR_AZIMUT_TARGET) > 5)  {
         azimut_current();
         delay(10);
       }
       azimut_stop();
-      AZIMUT_ROTAZIONE == 0;
+      AZIMUT_ROTAZIONE = STOP;
       break;
   }
 
   int y = map(analogRead(SENS_POT_AZIMUT), 0, 1023, 0, 450);
   unsigned long currentMillis = millis();
-  if (currentMillis - previousMillis > 1000) {
+  if (currentMillis - previousMillis >= 1000) {
     previousMillis = currentMillis;
     if (abs( y - VAR_AZIMUT_CURRENT) > 2) {
-      azimut_current();
+      azimut_current(); //Calcolo e visualizzazione azimut corrente su display
+      ser_print_azimut(); //Serial print posizione corrente e target
     }
   }
 
-  if (CHECK == 1) {
+  if (RUN_CALIBRAZIONE == 1) {
     int VAR_AZIMUT_PREV = analogRead(SENS_POT_AZIMUT);
-    digitalWrite( RELE_CCW, HIGH);
+    rotazione_CCW();
     //VAR_AZIMUT_PREV = analogRead(SENS_POT_AZIMUT);
-    while (VAR_AZIMUT_CURRENT < VAR_AZIMUT_PREV) {
+    while (VAR_AZIMUT_CURRENT <= VAR_AZIMUT_PREV) {
       VAR_AZIMUT_PREV = VAR_AZIMUT_CURRENT;
     }
-    digitalWrite( RELE_CCW, LOW);
+    azimut_stop();
     VAR_AZIMUT_MIN = analogRead(SENS_POT_AZIMUT);
     delay(1000);
-    digitalWrite( RELE_CW, HIGH);
+    rotazione_CW();
     while (VAR_AZIMUT_CURRENT > VAR_AZIMUT_PREV) {
       VAR_AZIMUT_PREV = VAR_AZIMUT_CURRENT;
     }
-    digitalWrite( RELE_CW, LOW);
+    azimut_stop();
     VAR_AZIMUT_MAX = analogRead(SENS_POT_AZIMUT);
+    RUN_CALIBRAZIONE = 0;
   }
 }

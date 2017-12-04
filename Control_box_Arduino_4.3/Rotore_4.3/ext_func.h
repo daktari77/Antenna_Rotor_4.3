@@ -1,19 +1,71 @@
-void rotazione(){
-  if (VAR_AZIMUT_CURRENT < 180 && (VAR_AZIMUT_TARGET < VAR_AZIMUT_CURRENT) || ((VAR_AZIMUT_CURRENT - 180) < VAR_AZIMUT_TARGET) && (VAR_AZIMUT_TARGET < VAR_AZIMUT_CURRENT) || (90 < VAR_AZIMUT_TARGET) && (VAR_AZIMUT_TARGET < VAR_AZIMUT_CURRENT)) {
-    AZIMUT_ROTAZIONE = 1;
-  }
-  else {
-    AZIMUT_ROTAZIONE = 2;
-  }
-  if (360 < VAR_AZIMUT_CURRENT && VAR_AZIMUT_CURRENT < 450) {
-    if ((VAR_AZIMUT_CURRENT - 360) < VAR_AZIMUT_TARGET && ( VAR_AZIMUT_TARGET < 90)) {
-      AZIMUT_ROTAZIONE = 2;
+void rotazione() {
+  if (0 <= VAR_AZIMUT_CURRENT && VAR_AZIMUT_CURRENT < 180) {
+    if (VAR_AZIMUT_CURRENT < VAR_AZIMUT_TARGET) {
+      dbSerialPrint("TARGET = ");
+      dbSerialPrintln( VAR_AZIMUT_TARGET );
+      dbSerialPrint("CURRENT= ");
+      dbSerialPrintln(VAR_AZIMUT_CURRENT);
+      dbSerialPrint("DIFF= ");
+      dbSerialPrintln(VAR_AZIMUT_TARGET - VAR_AZIMUT_CURRENT);
+      AZIMUT_ROTAZIONE = CCW;
+
     }
     else {
-      AZIMUT_ROTAZIONE = 1;
+      dbSerialPrint("TARGET = ");
+      dbSerialPrintln( VAR_AZIMUT_TARGET );
+      dbSerialPrint("CURRENT= ");
+      dbSerialPrintln(VAR_AZIMUT_CURRENT);
+      dbSerialPrint("DIFF= ");
+      dbSerialPrintln(VAR_AZIMUT_CURRENT - VAR_AZIMUT_TARGET);
+      AZIMUT_ROTAZIONE = CW;
     }
   }
-}
+  else if (VAR_AZIMUT_CURRENT < VAR_AZIMUT_TARGET) {
+    dbSerialPrint("TARGET = ");
+    dbSerialPrintln( VAR_AZIMUT_TARGET );
+    dbSerialPrint("CURRENT= ");
+    dbSerialPrintln(VAR_AZIMUT_CURRENT);
+    dbSerialPrint("DIFF= ");
+    dbSerialPrintln(VAR_AZIMUT_TARGET - VAR_AZIMUT_CURRENT);
+    AZIMUT_ROTAZIONE = CCW;
+
+  }
+  else {
+    dbSerialPrint("TARGET = ");
+    dbSerialPrintln( VAR_AZIMUT_TARGET );
+    dbSerialPrint("CURRENT= ");
+    dbSerialPrintln(VAR_AZIMUT_CURRENT);
+    dbSerialPrint("DIFF= ");
+    dbSerialPrintln(VAR_AZIMUT_CURRENT - VAR_AZIMUT_TARGET);
+    AZIMUT_ROTAZIONE = CW;
+  }
+
+  /*
+    if (180 <= VAR_AZIMUT_CURRENT && VAR_AZIMUT_CURRENT < 270) {
+      if (90 <= VAR_AZIMUT_TARGET && VAR_AZIMUT_TARGET < 360) {
+        if (VAR_AZIMUT_CURRENT < VAR_AZIMUT_TARGET) {
+          dbSerialPrint("TARGET = ");
+          dbSerialPrintln( VAR_AZIMUT_TARGET );
+          dbSerialPrint("CURRENT= ");
+          dbSerialPrintln(VAR_AZIMUT_CURRENT);
+          dbSerialPrint("DIFF= ");
+          dbSerialPrintln(VAR_AZIMUT_TARGET - VAR_AZIMUT_CURRENT);
+          AZIMUT_ROTAZIONE = CCW;
+
+        }
+        else {
+          dbSerialPrint("TARGET = ");
+          dbSerialPrintln( VAR_AZIMUT_TARGET );
+          dbSerialPrint("CURRENT= ");
+          dbSerialPrintln(VAR_AZIMUT_CURRENT);
+          dbSerialPrint("DIFF= ");
+          dbSerialPrintln(VAR_AZIMUT_CURRENT - VAR_AZIMUT_TARGET);
+          AZIMUT_ROTAZIONE = CW;
+        }
+      }
+    }
+  */
+} //Chiusura void
 
 
 void azimut_current() {
@@ -31,6 +83,7 @@ void azimut_current() {
     GAU_AZIMUT.setValue(VAR_AZIMUT_CURRENT + 90 );
     TXT_AZIMUT.setText(BUFFER);
     TXT_AZIMUT.Set_font_color_pco(GREEN);
+
     r0.setValue(0);
     OVERLAP = 0;
   }
@@ -78,4 +131,11 @@ void rotazione_CW() {
 void rotazione_CCW() {
   delay(10);
   digitalWrite( RELE_CCW, HIGH);
+}
+
+void ser_print_azimut() { //Serial print posizione corrente e target
+  dbSerialPrint("TARGET = ");
+  dbSerialPrintln( VAR_AZIMUT_TARGET );
+  dbSerialPrint("CURRENT= ");
+  dbSerialPrintln(VAR_AZIMUT_CURRENT);
 }
