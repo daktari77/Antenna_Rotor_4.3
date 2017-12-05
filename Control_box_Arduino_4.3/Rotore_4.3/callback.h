@@ -70,14 +70,12 @@ void BTN_MEM7PopCallback(void *ptr) {
 
 }
 
-
-
-
 void TOU_MEM_NORDPopCallback(void *ptr) {
   dbSerialPrintln("BTN_MEM_NORDPopCallback");
   dbSerialPrint("ptr=");
   dbSerialPrintln((uint32_t)ptr);
   VAR_AZIMUT_TARGET = 0;
+  EEPROM.update(0,VAR_AZIMUT_TARGET / 4);
   ser_print_azimut();
   rotazione();
 }
@@ -86,6 +84,7 @@ void TOU_MEM_ESTPopCallback(void *ptr) {
   dbSerialPrint("ptr=");
   dbSerialPrintln((uint32_t)ptr);
   VAR_AZIMUT_TARGET = 90;
+  EEPROM.update(0,VAR_AZIMUT_TARGET / 4);
   ser_print_azimut();
   rotazione();
 }
@@ -94,6 +93,7 @@ void TOU_MEM_SUDPopCallback(void *ptr) {
   dbSerialPrint("ptr=");
   dbSerialPrintln((uint32_t)ptr);
   VAR_AZIMUT_TARGET = 180;
+  EEPROM.update(0,VAR_AZIMUT_TARGET / 4);
   ser_print_azimut();
   rotazione();
 }
@@ -102,6 +102,7 @@ void TOU_MEM_WESTPopCallback(void *ptr) {
   dbSerialPrint("ptr=");
   dbSerialPrintln((uint32_t)ptr);
   VAR_AZIMUT_TARGET = 270;
+  EEPROM.update(0,VAR_AZIMUT_TARGET / 4);
   ser_print_azimut();
   rotazione();
 }
@@ -110,9 +111,7 @@ void TOU_AZIMUT_ENTPopCAllback(void *ptr) {
   dbSerialPrintln("TOU_AZIMUT_ENTPopCAllback");
   dbSerialPrint("ptr=");
   dbSerialPrintln((uint32_t)ptr);
-  va2.getValue(&a);
-  //dbSerialPrint("TARGET(A)=");
-  //dbSerialPrintln( a );
+  va2.getValue(&VAR_AZIMUT_TARGET);
   ser_print_azimut(); //Serial print posizione corrente e target
   rotazione();
 }

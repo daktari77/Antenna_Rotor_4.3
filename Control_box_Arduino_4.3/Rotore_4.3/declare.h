@@ -8,8 +8,11 @@
    6  BIANCO COMMON
 */
 
+/*
+   LOCAZIONI EEPROM
+   0 LAST TARGET
+*/
 unsigned long previousMillis = 0;
-
 /*
   Dichiarazione variabili ambiente
 */
@@ -23,7 +26,9 @@ uint8_t AZIMUT_ROTAZIONE; // Array usato per il case switch, accetta valori STOP
 const int STOP = 0;
 const int CCW = 1;
 const int CW = 2;
-int ELEVAZ_ROTAZIONE = 0;
+bool ELEVAZ_ROTAZIONE_PROGRESS = 0;
+bool AZIMUT_ROTAZIONE_PROGRESS = 0;
+/*-----------------------------*/
 
 /*-----Indice delle pagine-----*/
 const uint8_t PAG_SPLASH = 0;
@@ -35,11 +40,11 @@ const uint8_t PAG_CONFIG = 5;
 /*-----------------------------*/
 
 /*--------variabili----------*/
-uint32_t  VAR_AZIMUT_TARGET = 0;  // Variabile per la memorizzazione dell'azimuth finale //DEVE RIMANERE A 32
-uint32_t  VAR_ELEVAZ_TARGET = 0; // Variabile per la memorizzazione dell'elevazione finale //DEVE RIMANERE A 32
+uint32_t  VAR_AZIMUT_TARGET = 0; // Variabile per la memorizzazione dell'azimuth finale //DEVE RIMANERE A 32
+uint32_t  VAR_AZIMUT_LAST_TARGET;
+uint32_t  VAR_ELEVAZ_TARGET; // Variabile per la memorizzazione dell'elevazione finale //DEVE RIMANERE A 32
 uint32_t  VAR_AZIMUT_CURRENT; // Variabile per la memorizzazione dell'azimuth corrente //DEVE RIMANERE A 32
 uint32_t  VAR_ELEVAZ_CURRENT; // Variabile per la memorizzazione dell'elevazione corrente //DEVE RIMANERE A 32
-uint32_t a;
 uint8_t   VAR_AZIMUT_MIN; //Variabile appoggio per memorizzazione valore minimo potenziometro azimut minimo
 uint8_t   VAR_AZIMUT_MAX; //Variabile appoggio per memorizzazione valore massimo potenziometro azimut minimo
 bool  RUN_CALIBRAZIONE = 0;
@@ -67,8 +72,8 @@ const unsigned int DELAY_S = 20;
 const unsigned int DELAY_M = 50;
 const unsigned int DELAY_L = 100;
 bool OVERLAP; // Variabile boolenana per condizione di overlap
-char BUFFER[10] = {0};
-char BUFFER_1[10] = {0};
+char BUFFER_AZ[10] = {0};
+char BUFFER_EL[10] = {0};
 /*-------------------------*/
 
 /*

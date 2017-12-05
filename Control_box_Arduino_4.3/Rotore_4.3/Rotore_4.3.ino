@@ -4,8 +4,8 @@
 */
 
 #include <Nextion.h>
-
-#include "declare.h" // variabili e costanti di ambiente
+#include <EEPROM.h>
+#include "declare.h"  // variabili e costanti di ambiente
 #include "ext_func.h" //funzioni da richiamare esternamente
 #include "callback.h" // funzioni callback di Nextion display
 
@@ -39,6 +39,8 @@ void setup(void)
   /* Set the baudrate which is for debug and communicate with Nextion screen. */
   nexSerial.begin(115200);
   dbSerialBegin(115200);
+  VAR_AZIMUT_LAST_TARGET = ((EEPROM.read(0) * 4));
+  //ciao
   for (int X = 8; X <= 11; X++) {
     pinMode( X, OUTPUT );
     digitalWrite( X, LOW );
@@ -47,18 +49,13 @@ void setup(void)
   /* Register the pop and push event callback function of the current button component. */
   TOU_CCW.attachPop(TOU_CCWPopCallback, &TOU_CCW);
   TOU_CCW.attachPush(TOU_CCWPushCallback, &TOU_CCW);
-
   TOU_CW.attachPop(TOU_CWPopCallback, &TOU_CW);
   TOU_CW.attachPush(TOU_CWPushCallback, &TOU_CW);
-
   TOU_UP.attachPop(TOU_UPPopCallback, &TOU_UP);
   TOU_UP.attachPush(TOU_UPPushCallback, &TOU_UP);
-
   TOU_DOWN.attachPop(TOU_DOWNPopCallback, &TOU_DOWN);
   TOU_DOWN.attachPush(TOU_DOWNPushCallback, &TOU_DOWN);
-
   TOU_AZIMUT_ENT.attachPop(TOU_AZIMUT_ENTPopCAllback, &TOU_AZIMUT_ENT);
-
 
   BTN_MEM1.attachPop(BTN_MEM1PopCallback, &BTN_MEM1);
   BTN_MEM2.attachPop(BTN_MEM2PopCallback, &BTN_MEM2);
@@ -72,59 +69,78 @@ void setup(void)
   TOU_MEM_EST.attachPop(TOU_MEM_ESTPopCallback, &TOU_MEM_EST);
   TOU_MEM_SUD.attachPop(TOU_MEM_SUDPopCallback, &TOU_MEM_SUD);
   TOU_MEM_NORD.attachPop(TOU_MEM_NORDPopCallback, &TOU_MEM_NORD);
-  //azimut_current();
   dbSerialPrintln("setup done");
+
   delay(2500);
   int x = 10;
-  /*
   for (int a = 0; a >= -1; a = a + x ) {   //DEMO gauge
     int b = (a * 2);
     GAU_ELEVAZ.setValue( a );
-    itoa(a, BUFFER, 10);
-    TXT_ELEVAZ.setText( BUFFER );
+    itoa(a, BUFFER_EL, 10);
+    TXT_ELEVAZ.setText( BUFFER_EL );
     GAU_AZIMUT.setValue( b );
-    itoa(b, BUFFER_1, 10);
-    TXT_AZIMUT.setText( BUFFER_1 );
+    itoa(b, BUFFER_AZ, 10);
+    TXT_AZIMUT.setText( BUFFER_AZ );
     if (a == 180) x = -10;
     //delay(1000);
   }
-  */
+  azimut_current();
+  elevaz_current();
 }
 
 void loop() {
   nexLoop(nex_listen_list);
-
-  switch (AZIMUT_ROTAZIONE) {
-    case STOP:
-      azimut_stop();
-      break;
-    case CCW:
-      rotazione_CCW();
-      while (abs(VAR_AZIMUT_CURRENT - VAR_AZIMUT_TARGET) < 5 && abs(VAR_AZIMUT_CURRENT - VAR_AZIMUT_TARGET) > 5) {
-        azimut_current();
-        delay(10);
-      }
-      azimut_stop();
-      AZIMUT_ROTAZIONE = STOP;
-      break;
-    case CW:
-      rotazione_CW();
-      while (abs(VAR_AZIMUT_CURRENT - VAR_AZIMUT_TARGET) < 5 && abs(VAR_AZIMUT_CURRENT - VAR_AZIMUT_TARGET) > 5)  {
-        azimut_current();
-        delay(10);
-      }
-      azimut_stop();
-      AZIMUT_ROTAZIONE = STOP;
-      break;
+  /*
+    switch (AZIMUT_ROTAZIONE) {
+     case STOP:
+       azimut_stop();
+       AZIMUT_ROTAZIONE_PROGRESS = 0;
+       break;
+     case CCW:
+       AZIMUT_ROTAZIONE_PROGRESS = 1;
+       rotazione_CCW();
+       break;
+     case CW:
+       AZIMUT_ROTAZIONE_PROGRESS = 1;
+       rotazione_CW();
+       break;
+    }
+  */
+  if (AZIMUT_ROTAZIONE == CCW) {
+    rotazione_CCW();
+    int AZ_MAX = max(VAR_AZIMUT_CURRENT , VAR_AZIMUT_TARGET);
+    int AZ_MIN = min(VAR_AZIMUT_CURRENT , VAR_AZIMUT_TARGET);
+    while ( AZ_MAX - AZ_MIN > 5) {
+      azimut_current();
+    }
+    azimut_stop();
+    AZIMUT_ROTAZIONE = STOP;
+  }
+  else if (AZIMUT_ROTAZIONE  == CW) {
+    rotazione_CW();
+    int AZ_MAX = max(VAR_AZIMUT_CURRENT , VAR_AZIMUT_TARGET);
+    int AZ_MIN = min(VAR_AZIMUT_CURRENT , VAR_AZIMUT_TARGET);
+    while ( AZ_MAX - AZ_MIN > 5) {
+      azimut_current();
+    }
+    azimut_stop();
+    AZIMUT_ROTAZIONE = STOP;
   }
 
-  int y = map(analogRead(SENS_POT_AZIMUT), 0, 1023, 0, 450);
+
+  int X = map(analogRead(SENS_POT_AZIMUT), 0, 1023, 0, 450);
+  int Y = map(analogRead(SENS_POT_ELEVAZ), 0, 1023, 0, 180);
+
   unsigned long currentMillis = millis();
   if (currentMillis - previousMillis >= 1000) {
     previousMillis = currentMillis;
-    if (abs( y - VAR_AZIMUT_CURRENT) > 2) {
+    if (abs( X - VAR_AZIMUT_CURRENT) > 2)  {
       azimut_current(); //Calcolo e visualizzazione azimut corrente su display
       ser_print_azimut(); //Serial print posizione corrente e target
+    }
+    if (abs(Y - VAR_ELEVAZ_CURRENT) > 2)
+    {
+      elevaz_current();
     }
   }
 
