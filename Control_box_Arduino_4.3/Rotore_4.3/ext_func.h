@@ -100,12 +100,12 @@ void rotazione_DOWN() {
   delay(10);
   digitalWrite( RELE_DOWN, HIGH);
 }
-void azimut_stop()  {
+void elevaz_stop()  {
   digitalWrite( RELE_UP, LOW);
   digitalWrite( RELE_DOWN, LOW);
 }
 
-void elevaz_stop()  {
+void azimut_stop()  {
   digitalWrite( RELE_CCW, LOW);
   digitalWrite( RELE_CW, LOW);
 }

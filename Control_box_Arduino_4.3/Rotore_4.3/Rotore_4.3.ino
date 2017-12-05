@@ -90,38 +90,30 @@ void setup(void)
 
 void loop() {
   nexLoop(nex_listen_list);
-  /*
-    switch (AZIMUT_ROTAZIONE) {
-     case STOP:
-       azimut_stop();
-       AZIMUT_ROTAZIONE_PROGRESS = 0;
-       break;
-     case CCW:
-       AZIMUT_ROTAZIONE_PROGRESS = 1;
-       rotazione_CCW();
-       break;
-     case CW:
-       AZIMUT_ROTAZIONE_PROGRESS = 1;
-       rotazione_CW();
-       break;
-    }
-  */
+  int AZ_MAX;
+  int AZ_MIN;
+  
   if (AZIMUT_ROTAZIONE == CCW) {
     rotazione_CCW();
-    int AZ_MAX = max(VAR_AZIMUT_CURRENT , VAR_AZIMUT_TARGET);
-    int AZ_MIN = min(VAR_AZIMUT_CURRENT , VAR_AZIMUT_TARGET);
-    while ( AZ_MAX - AZ_MIN > 5) {
-      azimut_current();
+    AZ_MAX = max(VAR_AZIMUT_CURRENT , VAR_AZIMUT_TARGET);
+    AZ_MIN = min(VAR_AZIMUT_CURRENT , VAR_AZIMUT_TARGET);
+
+    while ( AZ_MAX - AZ_MIN > 1) {
+      azimut_current(); // invia valori al display e Leggere il valore del potenziometro
+      AZ_MAX = max(VAR_AZIMUT_CURRENT , VAR_AZIMUT_TARGET);
+      AZ_MIN = min(VAR_AZIMUT_CURRENT , VAR_AZIMUT_TARGET);
     }
     azimut_stop();
     AZIMUT_ROTAZIONE = STOP;
   }
   else if (AZIMUT_ROTAZIONE  == CW) {
     rotazione_CW();
-    int AZ_MAX = max(VAR_AZIMUT_CURRENT , VAR_AZIMUT_TARGET);
-    int AZ_MIN = min(VAR_AZIMUT_CURRENT , VAR_AZIMUT_TARGET);
-    while ( AZ_MAX - AZ_MIN > 5) {
+    AZ_MAX = max(VAR_AZIMUT_CURRENT , VAR_AZIMUT_TARGET);
+    AZ_MIN = min(VAR_AZIMUT_CURRENT , VAR_AZIMUT_TARGET);
+    while ( AZ_MAX - AZ_MIN > 1) {
       azimut_current();
+      AZ_MAX = max(VAR_AZIMUT_CURRENT , VAR_AZIMUT_TARGET);
+      AZ_MIN = min(VAR_AZIMUT_CURRENT , VAR_AZIMUT_TARGET);
     }
     azimut_stop();
     AZIMUT_ROTAZIONE = STOP;
