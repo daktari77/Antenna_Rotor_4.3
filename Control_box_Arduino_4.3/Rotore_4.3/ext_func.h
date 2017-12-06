@@ -24,13 +24,36 @@ void rotazione() {
       AZIMUT_ROTAZIONE = CW;
     }
   }
-  else if (VAR_AZIMUT_CURRENT < VAR_AZIMUT_TARGET) {
-    dbSerialPrintln("Rotazione CCW in corso ");
-    AZIMUT_ROTAZIONE = CCW;
+  else if (180 <= VAR_AZIMUT_CURRENT && VAR_AZIMUT_CURRENT < 270) {
+    if (90 <= VAR_AZIMUT_TARGET && VAR_AZIMUT_TARGET < 270) {
+      if (VAR_AZIMUT_CURRENT < VAR_AZIMUT_TARGET) {
+        dbSerialPrintln("Rotazione CCW in corso ");
+        AZIMUT_ROTAZIONE = CCW;
+      }
+      else {
+        dbSerialPrintln("Rotazione CW in corso ");
+        AZIMUT_ROTAZIONE = CW;
+      }
+    }
+    else if ((VAR_AZIMUT_CURRENT - VAR_AZIMUT_TARGET) < 180) {
+      dbSerialPrintln("Rotazione CCW in corso ");
+      AZIMUT_ROTAZIONE = CCW;
+    }
+    else {
+      VAR_AZIMUT_TARGET = VAR_AZIMUT_TARGET + 360;
+      dbSerialPrintln("Rotazione CW in corso ");
+      AZIMUT_ROTAZIONE = CW;
+    }
   }
-  else {
-    dbSerialPrintln("Rotazione CW in corso ");
-    AZIMUT_ROTAZIONE = CW;
+  else if (270 <= VAR_AZIMUT_CURRENT && VAR_AZIMUT_CURRENT < 450) && (270 <= VAR_AZIMUT_TARGET && VAR_AZIMUT_TARGET < 450) {
+    if (VAR_AZIMUT_CURRENT < VAR_AZIMUT_TARGET) {
+      dbSerialPrintln("Rotazione CCW in corso ");
+      AZIMUT_ROTAZIONE = CCW;
+    }
+    else {
+      dbSerialPrintln("Rotazione CW in corso ");
+      AZIMUT_ROTAZIONE = CW;
+    }
   }
 } //Chiusura void
 
@@ -55,9 +78,10 @@ void azimut_current() {
   if (VAR_AZIMUT_CURRENT >= 0 && VAR_AZIMUT_CURRENT <= 270) {
     ser_print_azimut();
     GAU_AZIMUT.setValue(VAR_AZIMUT_CURRENT + 90 );
+    GAU_AZIMUT.Set_background_color_bco(YELLOW);
     TXT_AZIMUT.setText(BUFFER_AZ);
-    TXT_AZIMUT.Set_font_color_pco(GREEN);
-    r0.setValue(0);
+    TXT_AZIMUT.Set_font_color_pco(YELLOW);
+
     OVERLAP = 0;
   }
   else
@@ -66,16 +90,15 @@ void azimut_current() {
     TXT_AZIMUT.setText(BUFFER_AZ);
     if (VAR_AZIMUT_CURRENT > 360 && VAR_AZIMUT_CURRENT <= 450) {
       ser_print_azimut();
-      r0.setValue(1);
+      GAU_AZIMUT.Set_background_color_bco(RED);
       TXT_AZIMUT.Set_font_color_pco(RED);
       OVERLAP = 1;
     }
     else
     {
-      GAU_AZIMUT.Set_background_color_bco(GREEN);
-      TXT_OVERLAP.Set_font_color_pco(GREEN);
-      TXT_AZIMUT.Set_font_color_pco(GREEN);
-      r0.setValue(0);
+      GAU_AZIMUT.Set_background_color_bco(YELLOW);
+      TXT_OVERLAP.Set_font_color_pco(YELLOW);
+      TXT_AZIMUT.Set_font_color_pco(YELLOW);
       OVERLAP = 0;
     }
   }

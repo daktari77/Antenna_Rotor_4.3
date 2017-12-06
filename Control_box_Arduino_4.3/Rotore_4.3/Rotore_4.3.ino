@@ -72,7 +72,7 @@ void setup(void)
   dbSerialPrintln("setup done");
 
   delay(2500);
-  int x = 10;
+  int x = 15;
   for (int a = 0; a >= -1; a = a + x ) {   //DEMO gauge
     int b = (a * 2);
     GAU_ELEVAZ.setValue( a );
@@ -81,7 +81,7 @@ void setup(void)
     GAU_AZIMUT.setValue( b );
     itoa(b, BUFFER_AZ, 10);
     TXT_AZIMUT.setText( BUFFER_AZ );
-    if (a == 180) x = -10;
+    if (a == 180) x = -x;
     //delay(1000);
   }
   azimut_current();
@@ -92,7 +92,7 @@ void loop() {
   nexLoop(nex_listen_list);
   int AZ_MAX;
   int AZ_MIN;
-  
+
   if (AZIMUT_ROTAZIONE == CCW) {
     rotazione_CCW();
     AZ_MAX = max(VAR_AZIMUT_CURRENT , VAR_AZIMUT_TARGET);
@@ -126,11 +126,12 @@ void loop() {
   unsigned long currentMillis = millis();
   if (currentMillis - previousMillis >= 1000) {
     previousMillis = currentMillis;
-    if (abs( X - VAR_AZIMUT_CURRENT) > 2)  {
+    if (abs( X - VAR_AZIMUT_CURRENT) > 2)  //Aggiorno valore display solo se differenza maggiore di 2
+    {
       azimut_current(); //Calcolo e visualizzazione azimut corrente su display
-      ser_print_azimut(); //Serial print posizione corrente e target
+      //ser_print_azimut(); //Serial print posizione corrente e target
     }
-    if (abs(Y - VAR_ELEVAZ_CURRENT) > 2)
+    if (abs(Y - VAR_ELEVAZ_CURRENT) > 2)  //Aggiorno valore display solo se differenza maggiore di 2
     {
       elevaz_current();
     }

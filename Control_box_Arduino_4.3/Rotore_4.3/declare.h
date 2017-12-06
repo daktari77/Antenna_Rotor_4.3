@@ -60,6 +60,8 @@ const uint32_t GREEN = 1024;
 const uint32_t RED = 63488;
 const uint32_t BLACK = 0;
 const uint32_t WHITE = 65535;
+const uint32_t YELLOW = 61058;
+
 /*------------------------*/
 
 /*--------timer--------*/
@@ -145,4 +147,3 @@ NexVariable VA_MEM7 = NexVariable(PAG_AZIMUT, 15, "VA_MEM7");
 /*
    RADIO
 */
-NexRadio r0 = NexRadio(PAG_MAIN, 12, "r0"); // radiobutton per indicazione overlap
