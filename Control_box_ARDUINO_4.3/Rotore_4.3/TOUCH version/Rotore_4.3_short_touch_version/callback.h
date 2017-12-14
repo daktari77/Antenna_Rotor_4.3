@@ -5,11 +5,14 @@
 /*
    Memory recall
 */
+
 void BTN_MEM0PopCallback(void *ptr) {
   dbSerialPrintln("BTN_MEM0PopCallback");
   dbSerialPrint("ptr=");
   dbSerialPrintln((uint32_t)ptr);
-  VA_MEM0.getValue(&VAR_AZIMUT_TARGET);
+  VAR_AZIMUT_TARGET = 0;
+  EEPROM.update(0, VAR_AZIMUT_TARGET / 4);
+  ser_print_azimut();
   rotazione();
 }
 
@@ -17,7 +20,9 @@ void BTN_MEM1PopCallback(void *ptr) {
   dbSerialPrintln("BTN_MEM1PopCallback");
   dbSerialPrint("ptr=");
   dbSerialPrintln((uint32_t)ptr);
-  VA_MEM1.getValue(&VAR_AZIMUT_TARGET);
+  VAR_AZIMUT_TARGET = 0;
+  EEPROM.update(0, VAR_AZIMUT_TARGET / 4);
+  ser_print_azimut();
   rotazione();
 }
 
@@ -25,7 +30,9 @@ void BTN_MEM2PopCallback(void *ptr) {
   dbSerialPrintln("BTN_MEM2PopCallback");
   dbSerialPrint("ptr=");
   dbSerialPrintln((uint32_t)ptr);
-  VA_MEM2.getValue(&VAR_AZIMUT_TARGET);
+  VAR_AZIMUT_TARGET = 0;
+  EEPROM.update(0, VAR_AZIMUT_TARGET / 4);
+  ser_print_azimut();
   rotazione();
 }
 
@@ -33,7 +40,9 @@ void BTN_MEM3PopCallback(void *ptr) {
   dbSerialPrintln("BTN_MEM3PopCallback");
   dbSerialPrint("ptr=");
   dbSerialPrintln((uint32_t)ptr);
-  VA_MEM3.getValue(&VAR_AZIMUT_TARGET);
+  VAR_AZIMUT_TARGET = 0;
+  EEPROM.update(0, VAR_AZIMUT_TARGET / 4);
+  ser_print_azimut();
   rotazione();
 
 }
@@ -41,15 +50,18 @@ void BTN_MEM4PopCallback(void *ptr) {
   dbSerialPrintln("BTN_MEM4PopCallback");
   dbSerialPrint("ptr=");
   dbSerialPrintln((uint32_t)ptr);
-  VA_MEM4.getValue(&VAR_AZIMUT_TARGET);
+  VAR_AZIMUT_TARGET = 0;
+  EEPROM.update(0, VAR_AZIMUT_TARGET / 4);
+  ser_print_azimut();
   rotazione();
-
 }
 void BTN_MEM5PopCallback(void *ptr) {
   dbSerialPrintln("BTN_MEM5PopCallback");
   dbSerialPrint("ptr=");
   dbSerialPrintln((uint32_t)ptr);
-  VA_MEM5.getValue(&VAR_AZIMUT_TARGET);
+  VAR_AZIMUT_TARGET = 0;
+  EEPROM.update(0, VAR_AZIMUT_TARGET / 4);
+  ser_print_azimut();
   rotazione();
 
 }
@@ -57,25 +69,28 @@ void BTN_MEM6PopCallback(void *ptr) {
   dbSerialPrintln("BTN_MEM6PopCallback");
   dbSerialPrint("ptr=");
   dbSerialPrintln((uint32_t)ptr);
-  VA_MEM6.getValue(&VAR_AZIMUT_TARGET);
+  VAR_AZIMUT_TARGET = 0;
+  EEPROM.update(0, VAR_AZIMUT_TARGET / 4);
+  ser_print_azimut();
   rotazione();
-
 }
 void BTN_MEM7PopCallback(void *ptr) {
   dbSerialPrintln("BTN_MEM7PopCallback");
   dbSerialPrint("ptr=");
   dbSerialPrintln((uint32_t)ptr);
-  VA_MEM7.getValue(&VAR_AZIMUT_TARGET);
+  VAR_AZIMUT_TARGET = 0;
+  EEPROM.update(0, VAR_AZIMUT_TARGET / 4);
+  ser_print_azimut();
   rotazione();
-
 }
+
 
 void TOU_MEM_NORDPopCallback(void *ptr) {
   dbSerialPrintln("BTN_MEM_NORDPopCallback");
   dbSerialPrint("ptr=");
   dbSerialPrintln((uint32_t)ptr);
   VAR_AZIMUT_TARGET = 0;
-  EEPROM.update(0,VAR_AZIMUT_TARGET / 4);
+  EEPROM.update(0, VAR_AZIMUT_TARGET / 4);
   ser_print_azimut();
   rotazione();
 }
@@ -84,7 +99,7 @@ void TOU_MEM_ESTPopCallback(void *ptr) {
   dbSerialPrint("ptr=");
   dbSerialPrintln((uint32_t)ptr);
   VAR_AZIMUT_TARGET = 90;
-  EEPROM.update(0,VAR_AZIMUT_TARGET / 4);
+  EEPROM.update(0, VAR_AZIMUT_TARGET / 4);
   ser_print_azimut();
   rotazione();
 }
@@ -93,7 +108,7 @@ void TOU_MEM_SUDPopCallback(void *ptr) {
   dbSerialPrint("ptr=");
   dbSerialPrintln((uint32_t)ptr);
   VAR_AZIMUT_TARGET = 180;
-  EEPROM.update(0,VAR_AZIMUT_TARGET / 4);
+  EEPROM.update(0, VAR_AZIMUT_TARGET / 4);
   ser_print_azimut();
   rotazione();
 }
@@ -102,29 +117,41 @@ void TOU_MEM_WESTPopCallback(void *ptr) {
   dbSerialPrint("ptr=");
   dbSerialPrintln((uint32_t)ptr);
   VAR_AZIMUT_TARGET = 270;
-  EEPROM.update(0,VAR_AZIMUT_TARGET / 4);
+  EEPROM.update(0, VAR_AZIMUT_TARGET / 4);
   ser_print_azimut();
   rotazione();
 }
 
-void TOU_AZIMUT_ENTPopCAllback(void *ptr) {
-  dbSerialPrintln("TOU_AZIMUT_ENTPopCAllback");
+void BTN_AZIMUT_ENTPopCallback(void *ptr) {
+  dbSerialPrintln("BTN_AZIMUT_ENT PopCallback");
   dbSerialPrint("ptr=");
   dbSerialPrintln((uint32_t)ptr);
-  va2.getValue(&VAR_AZIMUT_TARGET);
-  ser_print_azimut(); //Serial print posizione corrente e target
+  delay(50);
+  memset(BUFFER, 0, sizeof(BUFFER));
+  VA_TARGET.getText(BUFFER, sizeof(BUFFER));
+  delay(100);
+  VAR_AZIMUT_TARGET = atoi(BUFFER);
+  dbSerialPrintln("|------------------------------|");
+  dbSerialPrint("|               BUFFER = ");
+  dbSerialPrint(BUFFER);
+  dbSerialPrintln("     |");
+  dbSerialPrint("|TARGET da atoi BUFFER = ");
+  dbSerialPrint(VAR_AZIMUT_TARGET);
+  dbSerialPrintln("     |");
+  dbSerialPrintln("|------------------------------|");
+  EEPROM.update(0, VAR_AZIMUT_TARGET / 4);
   rotazione();
 }
 
 void TOU_UPPushCallback(void *ptr) {   //Funzione callback per l'evento PUSH del button TOU_UP
-  dbSerialPrintln("TOU_UPPushCallback");
+  dbSerialPrintln("TOU_UP PushCallback");
   dbSerialPrint("ptr=");
   dbSerialPrintln((uint32_t)ptr);
   delay(DELAY_S);
   digitalWrite( RELE_UP, HIGH );
 }
 void TOU_UPPopCallback(void *ptr) {   //Funzione callback per l'evento POP del button TOU_UP
-  dbSerialPrintln("TOU_UPPopCallback");
+  dbSerialPrintln("TOU_UP PopCallback");
   dbSerialPrint("ptr=");
   dbSerialPrintln((uint32_t)ptr);
   delay(DELAY_S);
