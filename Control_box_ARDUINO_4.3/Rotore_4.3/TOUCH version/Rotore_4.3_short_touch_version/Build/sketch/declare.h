@@ -15,7 +15,8 @@ int L_E = 2; //ULTIMA POSIZIONE ELEVAZIONE CONOSCIUTA
 int POT_MIN = 3; //memorizzazione pot min
 int POT_MAX = 4; //memorizzazione pot max
 
- /*
+unsigned long previousMillis = 0;
+/*
   Dichiarazione variabili ambiente
 */
 #define RELE_UP 8  //RELE UP

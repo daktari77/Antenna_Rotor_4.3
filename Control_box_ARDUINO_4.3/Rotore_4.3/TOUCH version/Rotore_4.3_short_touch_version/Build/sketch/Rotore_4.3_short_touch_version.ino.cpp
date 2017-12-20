@@ -1,3 +1,6 @@
+#include <Arduino.h>
+#line 1 "C:\\Users\\miche\\Dropbox (Personale)\\Progetti\\Antenna_Rotor\\Control_box_ARDUINO_4.3\\Rotore_4.3\\TOUCH version\\Rotore_4.3_short_touch_version\\Rotore_4.3_short_touch_version.ino"
+#line 1 "C:\\Users\\miche\\Dropbox (Personale)\\Progetti\\Antenna_Rotor\\Control_box_ARDUINO_4.3\\Rotore_4.3\\TOUCH version\\Rotore_4.3_short_touch_version\\Rotore_4.3_short_touch_version.ino"
 /*
    CONTROL BOX arduino based
    Nextion Display 4.3"
@@ -34,6 +37,11 @@ NexTouch *nex_listen_list[] =
   NULL
 };
 
+#line 37 "C:\\Users\\miche\\Dropbox (Personale)\\Progetti\\Antenna_Rotor\\Control_box_ARDUINO_4.3\\Rotore_4.3\\TOUCH version\\Rotore_4.3_short_touch_version\\Rotore_4.3_short_touch_version.ino"
+void setup(void);
+#line 93 "C:\\Users\\miche\\Dropbox (Personale)\\Progetti\\Antenna_Rotor\\Control_box_ARDUINO_4.3\\Rotore_4.3\\TOUCH version\\Rotore_4.3_short_touch_version\\Rotore_4.3_short_touch_version.ino"
+void loop(void);
+#line 37 "C:\\Users\\miche\\Dropbox (Personale)\\Progetti\\Antenna_Rotor\\Control_box_ARDUINO_4.3\\Rotore_4.3\\TOUCH version\\Rotore_4.3_short_touch_version\\Rotore_4.3_short_touch_version.ino"
 void setup(void)
 {
   unsigned long previousMillis = 0;
@@ -154,3 +162,4 @@ void loop(void) {
     }
   }
 }
+
