@@ -26,7 +26,7 @@ void rotazione() {
     dbSerialPrintln("Rotazione CW in corso ");
     AZIMUT_ROTAZIONE = "CW";
   }
-}  //Chiusura void
+}  //Chiusura void rotazione()
 
 void elevaz_current() {
   dbSerialPrintln("E' stata richiamata la funzione  elevaz_current()");
@@ -45,54 +45,66 @@ void azimut_current() {
      set TXT_AZIMUT color OK
   */
   dbSerialPrintln("E' stata richiamata la funzione  azimut_current()");
-  int previusMillis = 0;
+  //int previusMillis = 0;
   VAR_AZIMUT_CURRENT = map(analogRead(SENS_POT_AZIMUT), 0, 1023, 0, 450); //mappo il valore letto su A0
   itoa(VAR_AZIMUT_CURRENT, BUFFER_AZ, 10); //CONVERTE LA POSIZIONE IN STRINGA DA INVIARE A TXT_AZIMUT
-  unsigned long  currentMillis = millis();
-  if (currentMillis - previusMillis > 100) { //AGGIORNA IL VALORE OGNI 100ms (DA MODIFICARE ALL'OCCORRENZA)
-    previusMillis = currentMillis;
-    if (VAR_AZIMUT_CURRENT >= 0 && VAR_AZIMUT_CURRENT <= 270) {
+  //unsigned long  currentMillis = millis();
+  //if (currentMillis - previusMillis > 200) { //AGGIORNA IL VALORE OGNI 100ms (DA MODIFICARE ALL'OCCORRENZA)
+  //previusMillis = currentMillis;
+  if (VAR_AZIMUT_CURRENT >= 0 && VAR_AZIMUT_CURRENT <= 270) {
+    ser_print_azimut();
+    GAU_AZIMUT.setValue(VAR_AZIMUT_CURRENT + 90 );
+    GAU_AZIMUT.Set_background_color_bco(NORMAL);
+    TXT_AZIMUT.setText(BUFFER_AZ);
+    TXT_AZIMUT.Set_font_color_pco(NORMAL);
+    //OVERLAP = 0;
+  }
+  else
+  {
+    GAU_AZIMUT.setValue(VAR_AZIMUT_CURRENT - 270 );
+    TXT_AZIMUT.setText(BUFFER_AZ);
+    if (VAR_AZIMUT_CURRENT > 360 && VAR_AZIMUT_CURRENT <= 450) {
       ser_print_azimut();
-      GAU_AZIMUT.setValue(VAR_AZIMUT_CURRENT + 90 );
-      GAU_AZIMUT.Set_background_color_bco(GREEN);
-      TXT_AZIMUT.setText(BUFFER_AZ);
-      TXT_AZIMUT.Set_font_color_pco(GREEN);
-      OVERLAP = 0;
+      GAU_AZIMUT.Set_background_color_bco(OVERLAP);
+      TXT_AZIMUT.Set_font_color_pco(OVERLAP);
+      //OVERLAP = 1;
     }
     else
     {
-      GAU_AZIMUT.setValue(VAR_AZIMUT_CURRENT - 270 );
-      TXT_AZIMUT.setText(BUFFER_AZ);
-      if (VAR_AZIMUT_CURRENT > 360 && VAR_AZIMUT_CURRENT <= 450) {
-        ser_print_azimut();
-        GAU_AZIMUT.Set_background_color_bco(RED);
-        TXT_AZIMUT.Set_font_color_pco(RED);
-        OVERLAP = 1;
-      }
-      else
-      {
-        GAU_AZIMUT.Set_background_color_bco(GREEN);
-        TXT_AZIMUT.Set_font_color_pco(GREEN);
-        OVERLAP = 0;
-      }
+      GAU_AZIMUT.Set_background_color_bco(NORMAL);
+      TXT_AZIMUT.Set_font_color_pco(NORMAL);
+      //OVERLAP = 0;
     }
   }
+  //}
 }
 void rotazione_CW() {
   dbSerialPrintln("E' stata richiamata la funzione rotazione_CW()");
-  delay(10);
-  digitalWrite( RELE_CW, HIGH);
+  int  previusMillis = 0;
+  unsigned long  currentMillis = millis();
+  if (currentMillis - previusMillis > 10); {
+    previusMillis = currentMillis;
+    digitalWrite( RELE_CW, HIGH);
+  }
 }
 
 void rotazione_CCW() {
   dbSerialPrintln("|VOID rotazione_CCW()");
-  delay(10);
-  digitalWrite( RELE_CCW, HIGH);
+  int  previusMillis = 0;
+  unsigned long  currentMillis = millis();
+  if (currentMillis - previusMillis > 10); {
+    previusMillis = currentMillis;
+    digitalWrite( RELE_CCW, HIGH);
+  }
 }
 
 void rotazione_UP() {
-  delay(10);
-  digitalWrite( RELE_UP, HIGH);
+  int  previusMillis = 0;
+  unsigned long  currentMillis = millis();
+  if (currentMillis - previusMillis > 10); {
+    previusMillis = currentMillis;
+    digitalWrite( RELE_UP, HIGH);
+  }
 }
 
 void rotazione_DOWN() {

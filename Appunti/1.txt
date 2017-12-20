@@ -1,0 +1,22 @@
+if(TXT_TARGET.txt!="")
+{
+  cov TXT_TARGET.txt,va2.val,5
+  if(va2.val<=360)
+  {
+    delay=1000
+    page PAG_MAIN
+  }else
+  {
+    PAG_ERROR.TXT_ERROR.txt="INSERISCI < 360°"
+    page PAG_ERROR
+    delay=500
+    PAG_ERROR.TXT_ERROR.txt=""
+  }
+}else
+{
+  PAG_ERROR.TXT_ERROR.txt="INSERISCI LA DESTINAZIONE"
+  page PAG_ERROR
+  delay=3000
+  page PAG_ERROR
+  TXT_TARGET.txt=""
+}

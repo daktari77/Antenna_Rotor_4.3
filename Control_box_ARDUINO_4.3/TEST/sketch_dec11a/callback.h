@@ -1,79 +1,10 @@
-
 /*
   Callback eventi oggetti Nextion display
 */
 
-//----------------------- MEMORY BUTTON-------------------------------
-void BTN_MEM0PopCallback(void *ptr) {
-  dbSerialPrintln("BTN_MEM0PopCallback");
-  dbSerialPrint("ptr=");
-  dbSerialPrintln((uint32_t)ptr);
-  VAR_AZIMUT_TARGET = 0;
-  ser_print_azimut();
-  rotazione();
-}
-
-void BTN_MEM1PopCallback(void *ptr) {
-  dbSerialPrintln("BTN_MEM1PopCallback");
-  dbSerialPrint("ptr=");
-  dbSerialPrintln((uint32_t)ptr);
-  VAR_AZIMUT_TARGET = 0;
-  ser_print_azimut();
-  rotazione();
-}
-
-void BTN_MEM2PopCallback(void *ptr) {
-  dbSerialPrintln("BTN_MEM2PopCallback");
-  dbSerialPrint("ptr=");
-  dbSerialPrintln((uint32_t)ptr);
-  VAR_AZIMUT_TARGET = 0;
-  ser_print_azimut();
-  rotazione();
-}
-
-void BTN_MEM3PopCallback(void *ptr) {
-  dbSerialPrintln("BTN_MEM3PopCallback");
-  dbSerialPrint("ptr=");
-  dbSerialPrintln((uint32_t)ptr);
-  VAR_AZIMUT_TARGET = 0;
-  ser_print_azimut();
-  rotazione();
-
-}
-void BTN_MEM4PopCallback(void *ptr) {
-  dbSerialPrintln("BTN_MEM4PopCallback");
-  dbSerialPrint("ptr=");
-  dbSerialPrintln((uint32_t)ptr);
-  VAR_AZIMUT_TARGET = 0;
-  ser_print_azimut();
-  rotazione();
-}
-void BTN_MEM5PopCallback(void *ptr) {
-  dbSerialPrintln("BTN_MEM5PopCallback");
-  dbSerialPrint("ptr=");
-  dbSerialPrintln((uint32_t)ptr);
-  VAR_AZIMUT_TARGET = 0;
-  ser_print_azimut();
-  rotazione();
-
-}
-void BTN_MEM6PopCallback(void *ptr) {
-  dbSerialPrintln("BTN_MEM6PopCallback");
-  dbSerialPrint("ptr=");
-  dbSerialPrintln((uint32_t)ptr);
-  VAR_AZIMUT_TARGET = 0;
-  ser_print_azimut();
-  rotazione();
-}
-void BTN_MEM7PopCallback(void *ptr) {
-  dbSerialPrintln("BTN_MEM7PopCallback");
-  dbSerialPrint("ptr=");
-  
-  dbSerialPrintln((uint32_t)ptr);
-  VAR_AZIMUT_TARGET = 0;
-  ser_print_azimut();
-  rotazione();
-}
+/*
+   Memory recall
+*/
 
 
 void TOU_MEM_NORDPopCallback(void *ptr) {
@@ -112,87 +43,87 @@ void TOU_MEM_WESTPopCallback(void *ptr) {
   ser_print_azimut();
   rotazione();
 }
-//------------------------------------------------------------------
 
-
-//------------------------ ENTER BUTTON ----------------------------
-void BTN_AZIMUT_ENTPopCallback(void *ptr) {
-  dbSerialPrintln("BTN_AZIMUT_ENT PopCallback");
+void TOU_AZIMUT_ENTPopCallback(void *ptr) {
+  dbSerialPrintln("TOU_AZIMUT_ENTPopCallback");
   dbSerialPrint("ptr=");
   dbSerialPrintln((uint32_t)ptr);
-  delay(50);
-  memset(BUFFER, 0, sizeof(BUFFER));
-  VA_TARGET.getText(BUFFER, sizeof(BUFFER));
-  delay(100);
+  VA_TARGET.getText(BUFFER, 10);
+  dbSerialPrint("BUFFER = ");
+  dbSerialPrintln(BUFFER);
   VAR_AZIMUT_TARGET = atoi(BUFFER);
-  dbSerialPrintln("|------------------------------|");
-  dbSerialPrint("|               BUFFER = ");
-  dbSerialPrint(BUFFER);
-  dbSerialPrintln("     |");
-  dbSerialPrint("|TARGET da atoi BUFFER = ");
-  dbSerialPrint(VAR_AZIMUT_TARGET);
-  dbSerialPrintln("     |");
-  dbSerialPrintln("|------------------------------|");
-  EEPROM.update(0, VAR_AZIMUT_TARGET / 4);
+  dbSerialPrint("TARGET da atoi BUFFER = ");
+  dbSerialPrintln(VAR_AZIMUT_TARGET);
+  //EEPROM.update(0, VAR_AZIMUT_TARGET / 4);
   rotazione();
 }
-//-----------------------------------------------------------------
 
-//----------------------------------------- MANUAL BUTTON ----------------------------------------
 void TOU_UPPushCallback(void *ptr) {   //Funzione callback per l'evento PUSH del button TOU_UP
-  dbSerialPrintln("TOU_UP PushCallback");
+  dbSerialPrintln("TOU_UPPushCallback");
   dbSerialPrint("ptr=");
   dbSerialPrintln((uint32_t)ptr);
   delay(DELAY_S);
   digitalWrite( RELE_UP, HIGH );
 }
 void TOU_UPPopCallback(void *ptr) {   //Funzione callback per l'evento POP del button TOU_UP
-  dbSerialPrintln("TOU_UP PopCallback");
+  dbSerialPrintln("TOU_UPPopCallback");
   dbSerialPrint("ptr=");
   dbSerialPrintln((uint32_t)ptr);
   delay(DELAY_S);
   digitalWrite( RELE_UP, LOW );
 }
+
 void TOU_DOWNPushCallback(void *ptr) {  //Funzione callback per l'evento PUSH del button TOU_DOWN
   dbSerialPrintln("TOU_DOWNPushCallback");
   dbSerialPrint("ptr=");
   dbSerialPrintln((uint32_t)ptr);
   delay(DELAY_S);
+  //digitalWrite( RELE_UP, LOW );
   digitalWrite( RELE_DOWN, HIGH );
 }
+
 void TOU_CCWPushCallback(void *ptr) { //Funzione callback per l'evento PUSH del button TOU_CCW
   dbSerialPrintln("TOU_CCWPushCallback");
   dbSerialPrint("ptr=");
   dbSerialPrintln((uint32_t)ptr);
   delay(DELAY_S);
+  //digitalWrite( RELE_CW, LOW );
   digitalWrite( RELE_CCW, HIGH );
 }
+
 void TOU_CWPushCallback(void *ptr) {  //Funzione callback per l'evento PUSH del button TOU_CW
   dbSerialPrintln("TOU_CWPushCallback");
   dbSerialPrint("ptr=");
   dbSerialPrintln((uint32_t)ptr);
   delay(DELAY_S);
+  //digitalWrite( RELE_CCW, LOW );
   digitalWrite( RELE_CW, HIGH );
 }
+
 void TOU_CWPopCallback(void *ptr) { //Funzione callback per l'evento POP del button TOU_CW
   dbSerialPrintln("TOU_CWPopCallback");
   dbSerialPrint("ptr=");
   dbSerialPrintln((uint32_t)ptr);
   delay(DELAY_S);
+  //digitalWrite( RELE_CCW, LOW );
   digitalWrite( RELE_CW, LOW );
 }
+
 void TOU_CCWPopCallback(void *ptr)  { //Funzione callback per l'evento POP del button TOU_CCW
   dbSerialPrintln("TOU_CCWPopCallback");
   dbSerialPrint("ptr=");
   dbSerialPrintln((uint32_t)ptr);
   delay(DELAY_S);
   digitalWrite( RELE_CCW, LOW );
+  //digitalWrite( RELE_CW, LOW );
 }
+
 void TOU_DOWNPopCallback(void *ptr) { //Funzione callback per l'evento POP del button TOU_DOWN
   dbSerialPrintln("TOU_DOWNPopCallback");
   dbSerialPrint("ptr=");
   dbSerialPrintln((uint32_t)ptr);
   delay(DELAY_S);
+  //digitalWrite( RELE_UP, LOW );
   digitalWrite( RELE_DOWN, LOW );
 }
-//--------------------------------------------------------------------------------------------------
+

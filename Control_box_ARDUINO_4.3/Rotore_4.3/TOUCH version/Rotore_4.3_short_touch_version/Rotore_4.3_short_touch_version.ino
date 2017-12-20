@@ -71,9 +71,9 @@ void setup(void)
 
   dbSerialPrintln("setup done");
 
-  delay(2500);
+  delay(1000);
 
-  int x = 15;
+  int x = 20;
   for (int a = 0; a >= -1; a = a + x ) {   //DEMO gauge
     int b = (a * 2);
     GAU_ELEVAZ.setValue( a );
@@ -91,7 +91,7 @@ void setup(void)
 }
 
 void loop(void) {
-  
+
   int X = map(analogRead(SENS_POT_AZIMUT), 0, 1023, 0, 450);
   int Y = map(analogRead(SENS_POT_ELEVAZ), 0, 1023, 0, 180);
   int AZ_CURR_DIFF = (max(X, VAR_AZIMUT_CURRENT) - min(X, VAR_AZIMUT_CURRENT)); //CALCOLO LA DIFFERENZA TRA VAR_AZIMUT_CURRENT E VALORE ATTUALE
@@ -100,13 +100,17 @@ void loop(void) {
   nexLoop(nex_listen_list);
 
   if ((AZIMUT_ROTAZIONE == "CCW")) {
-    dbSerialPrintln("Ciclo IF richiamato da rotazione()");
+    int previusMillis = 0;
     rotazione_CCW();
     AZ_MAX = max(VAR_AZIMUT_CURRENT , VAR_AZIMUT_TARGET);
     AZ_MIN = min(VAR_AZIMUT_CURRENT , VAR_AZIMUT_TARGET);
-
     while ( AZ_MAX - AZ_MIN > 1) {
-      azimut_current(); // invia valori al display e Leggere il valore del potenziometro
+      currentMillis = millis();
+      if (currentMillis - previusMillis > 250) { // aggiorna la posizione ogni 750ms
+        dbSerialPrintln("ogni secondo, richiamata rotazione CCW");
+        azimut_current(); // invia valori al display e Leggere il valore del potenziometro
+        previusMillis = currentMillis;
+      }
       AZ_MAX = max(VAR_AZIMUT_CURRENT , VAR_AZIMUT_TARGET);
       AZ_MIN = min(VAR_AZIMUT_CURRENT , VAR_AZIMUT_TARGET);
     }
@@ -114,12 +118,18 @@ void loop(void) {
     AZIMUT_ROTAZIONE = "STOP";
   }
   else if ((AZIMUT_ROTAZIONE  == "CW")) {
-    dbSerialPrintln("Ciclo IF richiamato da rotazione()");
+    int previusMillis = 0;
+    dbSerialPrintln("Ciclo IF richiamato da rotazione(), richiamata rotazione CW");
     rotazione_CW();
     AZ_MAX = max(VAR_AZIMUT_CURRENT , VAR_AZIMUT_TARGET);
     AZ_MIN = min(VAR_AZIMUT_CURRENT , VAR_AZIMUT_TARGET);
     while ( AZ_MAX - AZ_MIN > 1) {
-      azimut_current();
+      currentMillis = millis();
+      if (currentMillis - previusMillis > 250) { // aggiorna la posizione ogni 750ms
+        dbSerialPrintln("ogni secondo, richiamata rotazione CW");
+        azimut_current(); // invia valori al display e Leggere il valore del potenziometro
+        previusMillis = currentMillis;
+      }
       AZ_MAX = max(VAR_AZIMUT_CURRENT , VAR_AZIMUT_TARGET);
       AZ_MIN = min(VAR_AZIMUT_CURRENT , VAR_AZIMUT_TARGET);
     }
@@ -127,24 +137,18 @@ void loop(void) {
     AZIMUT_ROTAZIONE = "STOP";
   }
 
-
-  if (currentMillis - previousMillis >= 1000) {
-    previousMillis = currentMillis;
-    if (AZ_CURR_DIFF > 2)  //Aggiorno valore display solo se differenza maggiore di 2
-    {
-      azimut_current(); //Calcolo e visualizzazione azimut corrente su display
-      EEPROM.update(L_A, VAR_AZIMUT_CURRENT / 4);
-    }
-    /*
+  /*
+    if (currentMillis - previousMillis >= 1000) {
+      previousMillis = currentMillis;
+      if (AZ_CURR_DIFF > 2)  //Aggiorno valore display solo se differenza maggiore di 2
+      {
+        azimut_current(); //Calcolo e visualizzazione azimut corrente su display
+        EEPROM.update(L_A, VAR_AZIMUT_CURRENT / 4);
+      }
       if (EL_CURR_DIFF > 2)  //Aggiorno valore display solo se differenza maggiore di 2
       {
-      elevaz_current(); //Calcolo e visualizzazione ELEVAZ corrente su display
-      EEPROM.update(L_E, VAR_ELEVAZ_CURRENT); // NON è NECESSARIO DIVIDERE IL VALORE PER 4 POICHE' ELEVAZ MAX = 180 (< 255)
+        elevaz_current(); //Calcolo e visualizzazione ELEVAZ corrente su display
+        EEPROM.update(L_E, VAR_ELEVAZ_CURRENT); // NON è NECESSARIO DIVIDERE IL VALORE PER 4 POICHE' ELEVAZ MAX = 180 (< 255)
       }
-    */
-  }
-
-  /*if (RUN_CALIBRAZIONE == 1) {
-    calibrazione();
     }*/
 }

@@ -1,0 +1,11 @@
+TIMER
+
+int previusMillis = 0;
+int currentMillis = millis();
+	if (currentMillis - previusMillis > 10); {
+      		previusMillis = currentMillis;
+      		FAI QUALCOS?ALTRO
+    	}
+
+
+

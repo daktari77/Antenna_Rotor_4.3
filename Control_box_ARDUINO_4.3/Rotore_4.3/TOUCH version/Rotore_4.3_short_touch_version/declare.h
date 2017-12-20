@@ -35,9 +35,9 @@ String AZIMUT_ROTAZIONE = "STOP"; // Array usato per il case switch, INSERIRE va
 const uint8_t PAG_SPLASH = 0;
 const uint8_t PAG_MAIN = 1;
 const uint8_t PAG_AZIMUT = 2;
-const uint8_t PAG_KEYBOARD = 3;
-const uint8_t PAG_CONFIG = 4;
-const uint8_t PAG_ERROR = 5;
+const uint8_t PAG_CONFIG = 3;
+//  const uint8_t PAG_ERROR = 4;
+
 /*-----------------------------*/
 
 /*--------variabili----------*/
@@ -56,8 +56,8 @@ int t_min = (VAR_AZIMUT_TARGET - 5);
 /*---------------------------*/
 
 /*-----colori Nextion-----*/
-const uint32_t GREEN = 1024;
-const uint32_t RED = 63488;
+const uint32_t NORMAL = 62819;
+const uint32_t OVERLAP = 63488;
 const uint32_t BLACK = 0;
 const uint32_t WHITE = 65535;
 
@@ -73,7 +73,7 @@ const unsigned int DELAY_L = 100;
 /*---------------------*/
 
 
-bool OVERLAP; // Variabile boolenana per condizione di overlap
+//bool OVERLAP; // Variabile boolenana per condizione di overlap
 char BUFFER_AZ[10] = {0};
 char BUFFER_EL[10] = {0};
 char BUFFER[5] = {0};
@@ -87,8 +87,18 @@ int EL_MAX;
   Dichiarazione oggetti Nextion
 */
 
+/*
+   --------------------------------PAGES-----------------------------------------
+*/
+
+//NexPage PAG_SPLASH = NexPage(0, 0, "PAG_SPLASH");
+//NexPage PAG_MAIN = NexPage(1, 0, "PAG_MAI");
+//NexPage PAG_AZIMUT = NexPage(2, 0, "PAG_AZIMUT");
+//NexPage PAG_CONFIG = NexPage(3, 0, "PAG_CONFIG");
+NexPage PAG_ERROR = NexPage(4, 0, "PAG_ERROR");
 
 //---------------------------------BUTTON----------------------------------------
+
 
 NexButton BTN_MEM0 = NexButton (PAG_AZIMUT, 11, "BTN_MEM0"); // Richiama memoria per AZIMUT
 NexButton BTN_MEM1 = NexButton (PAG_AZIMUT, 33, "BTN_MEM1"); // Richiama memoria per AZIMUT
@@ -131,3 +141,6 @@ NexGauge GAU_ELEVAZ = NexGauge(PAG_MAIN, 3, "GAU_ELEVAZ");  //dichiarazione ogge
 NexVariable VA_TARGET_INT = NexVariable(PAG_AZIMUT, 25, "VA_TARGET_INT"); //variabile di appoggio per il target
 NexVariable VA_TARGET = NexVariable(PAG_AZIMUT, 24, "VA_TARGET"); //variabile di appoggio per il target
 
+/*
+    CHECK BOX
+*/
