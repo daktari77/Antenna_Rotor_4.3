@@ -150,10 +150,10 @@ void loop(void) {
       EEPROM.update(L_E, ELEVAZ_CURRENT);                     // NON è NECESSARIO DIVIDERE IL VALORE PER 4 POICHE' ELEVAZ MAX = 180 (< 255)
     }
   }
-  if (VAR_AZIMUT_MIN > analogRead(SENS_POT_AZIMUT)) {
+  if (VAR_AZIMUT_MIN > analogRead(SENS_POT_AZIMUT)) {  // AGGIORNA IL VALORE MINIMO LETTO DAL POTENZIOMETRO
     EEPROM.update(POT_MIN, analogRead(SENS_POT_AZIMUT));
   }
-  if ((VAR_AZIMUT_MAX / 4) < analogRead(SENS_POT_AZIMUT)) {
+  if ((VAR_AZIMUT_MAX / 4) < analogRead(SENS_POT_AZIMUT)) { // AGGIORNA IL VALORE MASSIMO LETTO DAL POTENZIOMETRO
     EEPROM.update(POT_MAX, analogRead(SENS_POT_AZIMUT) / 4) ;
   }
 }
