@@ -3,7 +3,7 @@
   Callback eventi oggetti Nextion display
 */
 
-//----------------------- MEMORY BUTTON-------------------------------
+//-------------------------------- MEMORY BUTTON-------------------------------
 void BTN_MEM0PopCallback(void *ptr) {
   dbSerialPrintln("BTN_MEM0PopCallback");
   dbSerialPrint("ptr=");
@@ -38,8 +38,8 @@ void BTN_MEM3PopCallback(void *ptr) {
   AZIMUT_TARGET = 0;
   ser_print_azimut();
   rotazione();
-
 }
+
 void BTN_MEM4PopCallback(void *ptr) {
   dbSerialPrintln("BTN_MEM4PopCallback");
   dbSerialPrint("ptr=");
@@ -48,6 +48,7 @@ void BTN_MEM4PopCallback(void *ptr) {
   ser_print_azimut();
   rotazione();
 }
+
 void BTN_MEM5PopCallback(void *ptr) {
   dbSerialPrintln("BTN_MEM5PopCallback");
   dbSerialPrint("ptr=");
@@ -55,8 +56,8 @@ void BTN_MEM5PopCallback(void *ptr) {
   AZIMUT_TARGET = 0;
   ser_print_azimut();
   rotazione();
-
 }
+
 void BTN_MEM6PopCallback(void *ptr) {
   dbSerialPrintln("BTN_MEM6PopCallback");
   dbSerialPrint("ptr=");
@@ -65,6 +66,7 @@ void BTN_MEM6PopCallback(void *ptr) {
   ser_print_azimut();
   rotazione();
 }
+
 void BTN_MEM7PopCallback(void *ptr) {
   dbSerialPrintln("BTN_MEM7PopCallback");
   dbSerialPrint("ptr=");
@@ -84,6 +86,7 @@ void TOU_MEM_NORDPopCallback(void *ptr) {
   ser_print_azimut();
   rotazione();
 }
+
 void TOU_MEM_ESTPopCallback(void *ptr) {
   dbSerialPrintln("BTN_MEM_ESTPopCallback");
   dbSerialPrint("ptr=");
@@ -93,6 +96,7 @@ void TOU_MEM_ESTPopCallback(void *ptr) {
   ser_print_azimut();
   rotazione();
 }
+
 void TOU_MEM_SUDPopCallback(void *ptr) {
   dbSerialPrintln("BTN_MEM_SUDPopCallback");
   dbSerialPrint("ptr=");
@@ -102,6 +106,7 @@ void TOU_MEM_SUDPopCallback(void *ptr) {
   ser_print_azimut();
   rotazione();
 }
+
 void TOU_MEM_WESTPopCallback(void *ptr) {
   dbSerialPrintln("BTN_MEM_WESTPopCallback");
   dbSerialPrint("ptr=");
@@ -114,7 +119,7 @@ void TOU_MEM_WESTPopCallback(void *ptr) {
 //------------------------------------------------------------------
 
 
-//------------------------ ENTER BUTTON ----------------------------
+//----------------------------------- ENTER BUTTON ---------------------------------------------
 void TOU_MANUAL_ENTPopCallback(void *ptr) {
   dbSerialPrintln("TOU_MANUAL_ENT PopCallback");
   dbSerialPrint("ptr=");

@@ -6,19 +6,19 @@
 #include <Nextion.h>
 #include <EEPROM.h>
 #include "declare.h"  // variabili e costanti di ambiente
-#include "ext_func.h" //funzioni da richiamare esternamente
+#include "ext_func.h" // funzioni da richiamare esternamente
 #include "callback.h" // funzioni callback di Nextion display
-#include "looper.h"
+#include "looper.h"   // funzione per gestione dei timer
 
 /*
    Register a button object to the touch event list.
 */
 NexTouch *nex_listen_list[] =
 {
-  &TOU_CCW,         //evento pressione touch ccw
-  &TOU_CW,          //evento pressione touch cw
-  &TOU_UP,          //evento pressione touch up
-  &TOU_DOWN,        //evento pressione touch DOWN
+  &TOU_CCW,           //evento pressione touch ccw
+  &TOU_CW,            //evento pressione touch cw
+  &TOU_UP,            //evento pressione touch up
+  &TOU_DOWN,          //evento pressione touch DOWN
   &TOU_MANUAL_ENT,
   &BTN_MEM0,
   &BTN_MEM1,
@@ -46,29 +46,29 @@ void setup(void)
   }
   nexInit();
 
-  TOU_CCW.attachPop(TOU_CCWPopCallback, &TOU_CCW);      // TOUCH AREA PER AZIONAMENTO MANUALE DEL ROTORE
-  TOU_CCW.attachPush(TOU_CCWPushCallback, &TOU_CCW);    // TOUCH AREA PER AZIONAMENTO MANUALE DEL ROTORE
-  TOU_CW.attachPop(TOU_CWPopCallback, &TOU_CW);         // TOUCH AREA PER AZIONAMENTO MANUALE DEL ROTORE
-  TOU_CW.attachPush(TOU_CWPushCallback, &TOU_CW);       // TOUCH AREA PER AZIONAMENTO MANUALE DEL ROTORE
-  TOU_UP.attachPop(TOU_UPPopCallback, &TOU_UP);         // TOUCH AREA PER AZIONAMENTO MANUALE DEL ROTORE
-  TOU_UP.attachPush(TOU_UPPushCallback, &TOU_UP);       // TOUCH AREA PER AZIONAMENTO MANUALE DEL ROTORE
-  TOU_DOWN.attachPop(TOU_DOWNPopCallback, &TOU_DOWN);   // TOUCH AREA PER AZIONAMENTO MANUALE DEL ROTORE
-  TOU_DOWN.attachPush(TOU_DOWNPushCallback, &TOU_DOWN); // TOUCH AREA PER AZIONAMENTO MANUALE DEL ROTORE
+  TOU_CCW.attachPop(TOU_CCWPopCallback, &TOU_CCW);        // TOUCH AREA PER AZIONAMENTO MANUALE DEL ROTORE
+  TOU_CCW.attachPush(TOU_CCWPushCallback, &TOU_CCW);      // TOUCH AREA PER AZIONAMENTO MANUALE DEL ROTORE
+  TOU_CW.attachPop(TOU_CWPopCallback, &TOU_CW);           // TOUCH AREA PER AZIONAMENTO MANUALE DEL ROTORE
+  TOU_CW.attachPush(TOU_CWPushCallback, &TOU_CW);         // TOUCH AREA PER AZIONAMENTO MANUALE DEL ROTORE
+  TOU_UP.attachPop(TOU_UPPopCallback, &TOU_UP);           // TOUCH AREA PER AZIONAMENTO MANUALE DEL ROTORE
+  TOU_UP.attachPush(TOU_UPPushCallback, &TOU_UP);         // TOUCH AREA PER AZIONAMENTO MANUALE DEL ROTORE
+  TOU_DOWN.attachPop(TOU_DOWNPopCallback, &TOU_DOWN);     // TOUCH AREA PER AZIONAMENTO MANUALE DEL ROTORE
+  TOU_DOWN.attachPush(TOU_DOWNPushCallback, &TOU_DOWN);   // TOUCH AREA PER AZIONAMENTO MANUALE DEL ROTORE
   TOU_MANUAL_ENT.attachPop(TOU_MANUAL_ENTPopCallback, &TOU_MANUAL_ENT);
 
-  BTN_MEM1.attachPop(BTN_MEM1PopCallback, &BTN_MEM1); // BUTTON PER POSIZIONI PREIMPOSTATE
-  BTN_MEM2.attachPop(BTN_MEM2PopCallback, &BTN_MEM2); // BUTTON PER POSIZIONI PREIMPOSTATE
-  BTN_MEM3.attachPop(BTN_MEM3PopCallback, &BTN_MEM3); // BUTTON PER POSIZIONI PREIMPOSTATE
-  BTN_MEM4.attachPop(BTN_MEM4PopCallback, &BTN_MEM4); // BUTTON PER POSIZIONI PREIMPOSTATE
-  BTN_MEM5.attachPop(BTN_MEM5PopCallback, &BTN_MEM5); // BUTTON PER POSIZIONI PREIMPOSTATE
-  BTN_MEM6.attachPop(BTN_MEM6PopCallback, &BTN_MEM6); // BUTTON PER POSIZIONI PREIMPOSTATE
-  BTN_MEM7.attachPop(BTN_MEM7PopCallback, &BTN_MEM7); // BUTTON PER POSIZIONI PREIMPOSTATE
-  BTN_MEM0.attachPop(BTN_MEM0PopCallback, &BTN_MEM0); // BUTTON PER POSIZIONI PREIMPOSTATE
+  BTN_MEM1.attachPop(BTN_MEM1PopCallback, &BTN_MEM1);              // BUTTON PER POSIZIONI PREIMPOSTATE
+  BTN_MEM2.attachPop(BTN_MEM2PopCallback, &BTN_MEM2);              // BUTTON PER POSIZIONI PREIMPOSTATE
+  BTN_MEM3.attachPop(BTN_MEM3PopCallback, &BTN_MEM3);              // BUTTON PER POSIZIONI PREIMPOSTATE
+  BTN_MEM4.attachPop(BTN_MEM4PopCallback, &BTN_MEM4);              // BUTTON PER POSIZIONI PREIMPOSTATE
+  BTN_MEM5.attachPop(BTN_MEM5PopCallback, &BTN_MEM5);              // BUTTON PER POSIZIONI PREIMPOSTATE
+  BTN_MEM6.attachPop(BTN_MEM6PopCallback, &BTN_MEM6);              // BUTTON PER POSIZIONI PREIMPOSTATE
+  BTN_MEM7.attachPop(BTN_MEM7PopCallback, &BTN_MEM7);              // BUTTON PER POSIZIONI PREIMPOSTATE
+  BTN_MEM0.attachPop(BTN_MEM0PopCallback, &BTN_MEM0);              // BUTTON PER POSIZIONI PREIMPOSTATE
 
-  TOU_MEM_WEST.attachPop(TOU_MEM_WESTPopCallback, &TOU_MEM_WEST); // BUTTON PER POSIZIONI PREIMPOSTATE OVEST
-  TOU_MEM_EST.attachPop(TOU_MEM_ESTPopCallback, &TOU_MEM_EST);    // BUTTON PER POSIZIONI PREIMPOSTATE EST
-  TOU_MEM_SUD.attachPop(TOU_MEM_SUDPopCallback, &TOU_MEM_SUD);    // BUTTON PER POSIZIONI PREIMPOSTATE SUN
-  TOU_MEM_NORD.attachPop(TOU_MEM_NORDPopCallback, &TOU_MEM_NORD); // BUTTON PER POSIZIONI PREIMPOSTATE NORD
+  TOU_MEM_WEST.attachPop(TOU_MEM_WESTPopCallback, &TOU_MEM_WEST);  // BUTTON PER POSIZIONI PREIMPOSTATE OVEST
+  TOU_MEM_EST.attachPop(TOU_MEM_ESTPopCallback, &TOU_MEM_EST);     // BUTTON PER POSIZIONI PREIMPOSTATE EST
+  TOU_MEM_SUD.attachPop(TOU_MEM_SUDPopCallback, &TOU_MEM_SUD);     // BUTTON PER POSIZIONI PREIMPOSTATE SUN
+  TOU_MEM_NORD.attachPop(TOU_MEM_NORDPopCallback, &TOU_MEM_NORD);  // BUTTON PER POSIZIONI PREIMPOSTATE NORD
   dbSerialPrintln("setup done");
   delay(1000);
   int x = 20;
@@ -104,7 +104,7 @@ void loop(void) {
     AZ_MIN = min(AZIMUT_CURRENT , AZIMUT_TARGET);
     while ( AZ_MAX - AZ_MIN > 1) {
       if (millis() - previousMillis_CCW > 500) {              // aggiorna la posizione ogni 500ms
-        azimut_current(); // invia valori al display e Leggere il valore del potenziometro
+        azimut_current();                                     // invia valori al display e Leggere il valore del potenziometro
         previousMillis_CCW = millis();
       }
       AZIMUT_CURRENT = map(analogRead(SENS_POT_AZIMUT), VAR_AZIMUT_MIN, VAR_AZIMUT_MAX, 0, 450);
@@ -150,10 +150,10 @@ void loop(void) {
       EEPROM.update(L_E, ELEVAZ_CURRENT);                     // NON è NECESSARIO DIVIDERE IL VALORE PER 4 POICHE' ELEVAZ MAX = 180 (< 255)
     }
   }
-  if (VAR_AZIMUT_MIN > analogRead(SENS_POT_AZIMUT)) {  // AGGIORNA IL VALORE MINIMO LETTO DAL POTENZIOMETRO
+  if (VAR_AZIMUT_MIN > analogRead(SENS_POT_AZIMUT)) {         // AGGIORNA IL VALORE MINIMO LETTO DAL POTENZIOMETRO
     EEPROM.update(POT_MIN, analogRead(SENS_POT_AZIMUT));
   }
-  if ((VAR_AZIMUT_MAX / 4) < analogRead(SENS_POT_AZIMUT)) { // AGGIORNA IL VALORE MASSIMO LETTO DAL POTENZIOMETRO
+  if ((VAR_AZIMUT_MAX / 4) < analogRead(SENS_POT_AZIMUT)) {   // AGGIORNA IL VALORE MASSIMO LETTO DAL POTENZIOMETRO
     EEPROM.update(POT_MAX, analogRead(SENS_POT_AZIMUT) / 4) ;
   }
 }
