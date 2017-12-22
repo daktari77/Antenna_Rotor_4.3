@@ -43,7 +43,7 @@ const uint8_t PAG_CONFIG = 3;         // Pagina per attivare/disattivare funzion
 
 /*--------variabili----------*/
 uint32_t  AZIMUT_TARGET = 0;          // Variabile per la memorizzazione dell'azimuth finale //DEVE RIMANERE A 32
-uint32_t  VAR_AZIMUT_LAST_TARGET;
+uint32_t  VAR_AZIMUT_LAST_TARGET = ((EEPROM.read(0) * 4));
 uint32_t  VAR_ELEVAZ_TARGET;          // Variabile per la memorizzazione dell'elevazione finale //DEVE RIMANERE A 32
 uint32_t  AZIMUT_CURRENT;             // Variabile per la memorizzazione dell'azimuth corrente //DEVE RIMANERE A 32
 uint32_t  ELEVAZ_CURRENT;             // Variabile per la memorizzazione dell'elevazione corrente //DEVE RIMANERE A 32
