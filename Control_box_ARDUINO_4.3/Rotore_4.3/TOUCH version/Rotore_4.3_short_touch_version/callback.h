@@ -75,7 +75,6 @@ void BTN_MEM7PopCallback(void *ptr) {
   rotazione();
 }
 
-
 void TOU_MEM_NORDPopCallback(void *ptr) {
   dbSerialPrintln("BTN_MEM_NORDPopCallback");
   dbSerialPrint("ptr=");
@@ -116,12 +115,12 @@ void TOU_MEM_WESTPopCallback(void *ptr) {
 
 
 //------------------------ ENTER BUTTON ----------------------------
-void BTN_AZIMUT_ENTPopCallback(void *ptr) {
-  dbSerialPrintln("BTN_AZIMUT_ENT PopCallback");
+void TOU_MANUAL_ENTPopCallback(void *ptr) {
+  dbSerialPrintln("TOU_MANUAL_ENT PopCallback");
   dbSerialPrint("ptr=");
   dbSerialPrintln((uint32_t)ptr);
   delay(50);
-  memset(BUFFER, 0, sizeof(BUFFER));
+  memset(BUFFER, 0, sizeof(BUFFER)); // scrive "0" sull'array
   VA_TARGET.getText(BUFFER, sizeof(BUFFER));
   delay(100);
   AZIMUT_TARGET = atoi(BUFFER);
@@ -136,24 +135,22 @@ void BTN_AZIMUT_ENTPopCallback(void *ptr) {
   EEPROM.update(0, AZIMUT_TARGET / 4);
   rotazione();
 }
-//-----------------------------------------------------------------
+//------------------------------------------------------------------------------------------------
 
 //----------------------------------------- MANUAL BUTTON ----------------------------------------
 void TOU_UPPushCallback(void *ptr) {   //Funzione callback per l'evento PUSH del button TOU_UP
   dbSerialPrintln("TOU_UP PushCallback");
   dbSerialPrint("ptr=");
   dbSerialPrintln((uint32_t)ptr);
-  int  previusMillis = 0;
-  unsigned long  currentMillis = millis();
-  if (currentMillis - previusMillis > 10); {
-    previusMillis = currentMillis;
-    digitalWrite( RELE_UP, HIGH);
-  }
+  TXT_ROTAZIONE.Set_font_color_pco(NORMAL);
+  delay(DELAY_S);
+  digitalWrite( RELE_UP, HIGH);
 }
 void TOU_UPPopCallback(void *ptr) {   //Funzione callback per l'evento POP del button TOU_UP
   dbSerialPrintln("TOU_UP PopCallback");
   dbSerialPrint("ptr=");
   dbSerialPrintln((uint32_t)ptr);
+  TXT_ROTAZIONE.Set_font_color_pco(SFONDO);
   delay(DELAY_S);
   digitalWrite( RELE_UP, LOW );
 }
@@ -161,39 +158,31 @@ void TOU_DOWNPushCallback(void *ptr) {  //Funzione callback per l'evento PUSH de
   dbSerialPrintln("TOU_DOWNPushCallback");
   dbSerialPrint("ptr=");
   dbSerialPrintln((uint32_t)ptr);
-  int  previusMillis = 0;
-  unsigned long  currentMillis = millis();
-  if (currentMillis - previusMillis > 10); {
-    previusMillis = currentMillis;
-    digitalWrite( RELE_DOWN, HIGH);
-  }
+  TXT_ROTAZIONE.Set_font_color_pco(NORMAL);
+  delay(DELAY_S);
+  digitalWrite( RELE_DOWN, HIGH);
 }
 void TOU_CCWPushCallback(void *ptr) { //Funzione callback per l'evento PUSH del button TOU_CCW
   dbSerialPrintln("TOU_CCWPushCallback");
   dbSerialPrint("ptr=");
   dbSerialPrintln((uint32_t)ptr);
-  int  previusMillis = 0;
-  unsigned long  currentMillis = millis();
-  if (currentMillis - previusMillis > 10); {
-    previusMillis = currentMillis;
-    digitalWrite( RELE_CCW, HIGH);
-  }
+  TXT_ROTAZIONE.Set_font_color_pco(NORMAL);
+  delay(DELAY_S);
+  digitalWrite( RELE_CCW, HIGH);
 }
 void TOU_CWPushCallback(void *ptr) {  //Funzione callback per l'evento PUSH del button TOU_CW
   dbSerialPrintln("TOU_CWPushCallback");
   dbSerialPrint("ptr=");
   dbSerialPrintln((uint32_t)ptr);
-  int  previusMillis = 0;
-  unsigned long  currentMillis = millis();
-  if (currentMillis - previusMillis > 10); {
-    previusMillis = currentMillis;
-    digitalWrite( RELE_CW, HIGH);
-  }
+  TXT_ROTAZIONE.Set_font_color_pco(NORMAL);
+  delay(DELAY_S);
+  digitalWrite( RELE_CW, HIGH);
 }
 void TOU_CWPopCallback(void *ptr) { //Funzione callback per l'evento POP del button TOU_CW
   dbSerialPrintln("TOU_CWPopCallback");
   dbSerialPrint("ptr=");
   dbSerialPrintln((uint32_t)ptr);
+  TXT_ROTAZIONE.Set_font_color_pco(SFONDO);
   delay(DELAY_S);
   digitalWrite( RELE_CW, LOW );
 }
@@ -201,6 +190,7 @@ void TOU_CCWPopCallback(void *ptr)  { //Funzione callback per l'evento POP del b
   dbSerialPrintln("TOU_CCWPopCallback");
   dbSerialPrint("ptr=");
   dbSerialPrintln((uint32_t)ptr);
+  TXT_ROTAZIONE.Set_font_color_pco(SFONDO);
   delay(DELAY_S);
   digitalWrite( RELE_CCW, LOW );
 }
@@ -208,6 +198,7 @@ void TOU_DOWNPopCallback(void *ptr) { //Funzione callback per l'evento POP del b
   dbSerialPrintln("TOU_DOWNPopCallback");
   dbSerialPrint("ptr=");
   dbSerialPrintln((uint32_t)ptr);
+  TXT_ROTAZIONE.Set_font_color_pco(SFONDO);
   delay(DELAY_S);
   digitalWrite( RELE_DOWN, LOW );
 }
